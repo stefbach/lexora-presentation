@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lexora — Vidéo guidée</title>
+<style>
+:root{
+  --navy:#0d1530; --navy2:#070b1a; --gold:#d8b43f; --gold-2:#e7c75a; --gold-soft:#f3e6b8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#000;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;overflow:hidden}
+
+/* ===== Viewport letterbox ===== */
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000}
+#stage{position:relative;width:1920px;height:1080px;transform-origin:center center;
+  background:radial-gradient(1200px 700px at 20% -10%,#16204a 0%,#0b1130 45%,#070b1a 100%);overflow:hidden;flex:0 0 auto}
+
+/* soft moving aura behind the window */
+#aura{position:absolute;inset:-200px;pointer-events:none;
+  background:radial-gradient(700px 500px at 30% 30%,rgba(216,180,63,.10),transparent 60%),
+             radial-gradient(700px 500px at 80% 70%,rgba(109,92,245,.10),transparent 60%);
+  animation:auraDrift 26s ease-in-out infinite alternate}
+@keyframes auraDrift{from{transform:translate(0,0)}to{transform:translate(40px,-30px)}}
+
+/* ===== Browser window ===== */
+#browser{position:absolute;left:96px;top:64px;width:1728px;height:888px;border-radius:20px;overflow:hidden;
+  background:#0e1633;box-shadow:0 50px 120px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05);
+  opacity:0;transform:translateY(26px) scale(.985)}
+#bbar{height:52px;background:linear-gradient(180deg,#121a3a,#0d1530);display:flex;align-items:center;gap:9px;padding:0 20px;border-bottom:1px solid #0a0f22}
+#bbar .dot{width:13px;height:13px;border-radius:50%}
+.dr{background:#ff5f57}.dy{background:#febc2e}.dg{background:#28c840}
+#burl{margin-left:18px;font-size:14px;color:#8b95b5;background:#1a2342;padding:6px 18px;border-radius:20px;font-family:ui-monospace,monospace;display:flex;align-items:center;gap:8px}
+#burl::before{content:"";width:7px;height:7px;border-radius:50%;background:#39d98a;box-shadow:0 0 6px #39d98a}
+#frameWrap{position:absolute;left:0;top:52px;right:0;bottom:0;background:#f6f7f9}
+#app{width:1728px;height:836px;border:0;display:block;pointer-events:none;background:#f6f7f9}
+
+/* ===== Finger cursor ===== */
+#cursor{position:absolute;left:0;top:0;width:0;height:0;z-index:40;pointer-events:none;opacity:0;
+  filter:drop-shadow(0 14px 22px rgba(0,0,0,.35));will-change:transform}
+#cursor svg{position:absolute;left:-34px;top:-12px}
+#ring{position:absolute;left:0;top:0;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;
+  border:3px solid rgba(216,180,63,.9);opacity:0;transform:scale(.3)}
+
+/* ===== Lower-third chapter caption ===== */
+#chapter{position:absolute;left:96px;bottom:34px;z-index:30;display:flex;align-items:center;gap:18px;
+  background:rgba(8,12,28,.72);backdrop-filter:blur(8px);border:1px solid rgba(216,180,63,.35);
+  border-radius:16px;padding:16px 26px 16px 22px;opacity:0;transform:translateY(16px)}
+#chapter .idx{font-size:15px;font-weight:800;letter-spacing:1px;color:#241c00;background:linear-gradient(90deg,var(--gold),var(--gold-2));
+  width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+#chapter .ct{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700}
+#chapter .cn{font-size:26px;color:#fff;font-weight:700;letter-spacing:-.3px;margin-top:1px}
+
+/* ===== Intro title curtain ===== */
+#curtain{position:absolute;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:radial-gradient(1100px 700px at 50% 38%,#16204a 0%,#0b1130 50%,#060a18 100%)}
+#curtain .badge{font-size:17px;letter-spacing:7px;text-transform:uppercase;color:var(--gold);font-weight:700;
+  margin-bottom:34px;opacity:0}
+#title{display:flex;gap:6px}
+#title .ltr{font-size:230px;font-weight:800;line-height:.9;color:#fff;letter-spacing:-6px;display:inline-block;
+  transform-origin:50% 80%;text-shadow:0 30px 70px rgba(0,0,0,.5)}
+#title .ltr.x{background:linear-gradient(160deg,var(--gold-2),var(--gold) 55%,#b98e1f);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+#tagline{font-size:30px;color:#aeb6cc;margin-top:30px;letter-spacing:.5px;opacity:0;text-align:center}
+#tagline b{color:#fff;font-weight:600}
+#tdot{display:inline-block;width:13px;height:13px;border-radius:50%;background:#39d98a;box-shadow:0 0 14px #39d98a;margin-left:14px;vertical-align:middle}
+
+/* ===== Controls (outside the scaled stage) ===== */
+#controls{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:200;
+  display:flex;align-items:center;gap:14px;background:rgba(10,14,30,.86);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.10);border-radius:40px;padding:10px 16px;width:min(880px,92vw)}
+#controls button{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff;
+  width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.15s}
+#controls button:hover{background:rgba(216,180,63,.22);border-color:var(--gold)}
+#track{flex:1;height:8px;background:rgba(255,255,255,.12);border-radius:6px;position:relative;cursor:pointer}
+#fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-2));border-radius:6px}
+#ticks{position:absolute;inset:0}
+#ticks .tk{position:absolute;top:-3px;width:2px;height:14px;background:rgba(255,255,255,.32);border-radius:2px;transform:translateX(-1px)}
+#time{color:#cfd5e6;font-size:13px;font-family:ui-monospace,monospace;min-width:96px;text-align:right}
+#chips{position:fixed;left:50%;bottom:74px;transform:translateX(-50%);z-index:200;display:flex;gap:7px;flex-wrap:wrap;justify-content:center;width:min(1100px,94vw)}
+#chips .chip{font-size:12px;color:#c2c9dc;background:rgba(10,14,30,.7);border:1px solid rgba(255,255,255,.1);
+  border-radius:30px;padding:6px 13px;cursor:pointer;transition:.15s;white-space:nowrap}
+#chips .chip:hover{border-color:var(--gold);color:#fff}
+#chips .chip.on{background:linear-gradient(90deg,var(--gold),var(--gold-2));color:#241c00;font-weight:700;border-color:transparent}
+</style>
+</head>
+<body>
+<div id="viewport">
+  <div id="stage">
+    <div id="aura"></div>
+
+    <!-- Browser window with the live presentation inside -->
+    <div id="browser">
+      <div id="bbar">
+        <span class="dot dr"></span><span class="dot dy"></span><span class="dot dg"></span>
+        <span id="burl">lexora.finance/client/tableau-de-bord</span>
+      </div>
+      <div id="frameWrap">
+        <iframe id="app" src="presentation.html" title="Lexora"></iframe>
+      </div>
+    </div>
+
+    <!-- Chapter lower-third -->
+    <div id="chapter">
+      <div class="idx">01</div>
+      <div><div class="ct">Panorama plateforme</div><div class="cn">Vue d'ensemble</div></div>
+    </div>
+
+    <!-- Finger cursor -->
+    <div id="cursor">
+      <div id="ring"></div>
+      <svg width="86" height="116" viewBox="0 0 86 116">
+        <g transform="rotate(-20 30 18)">
+          <!-- index finger -->
+          <rect x="20" y="6" width="22" height="64" rx="11" fill="#f3cba6" stroke="#caa074" stroke-width="2"/>
+          <ellipse cx="31" cy="13" rx="7" ry="5" fill="#fff" opacity=".45"/>
+          <!-- hand / folded fingers -->
+          <path d="M14 58 q-4 -2 -2 -10 l4 -16 q2 -6 7 -4 q-2 8 0 14 l0 12 q14 -2 26 2 q12 4 12 20 l0 18 q0 18 -22 18 l-12 0 q-16 0 -20 -16 l-6 -22 q-3 -10 6 -12 q5 -1 7 6 z"
+                fill="#f3cba6" stroke="#caa074" stroke-width="2"/>
+          <!-- gold cuff -->
+          <path d="M16 104 q4 14 20 14 l12 0 q18 0 22 -14 l1 8 q-3 16 -23 16 l-12 0 q-18 0 -22 -16 z" fill="#d8b43f"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Intro curtain -->
+    <div id="curtain">
+      <div class="badge">Intelligent Accounting · powered by AI</div>
+      <div id="title">
+        <span class="ltr">L</span><span class="ltr">E</span><span class="ltr x">X</span><span class="ltr">O</span><span class="ltr">R</span><span class="ltr">A</span>
+      </div>
+      <div id="tagline">L'ERP comptable piloté par l'IA — conçu pour l'Île Maurice<span id="tdot"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Chapter chips -->
+<div id="chips"></div>
+
+<!-- Controls -->
+<div id="controls">
+  <button id="btnRestart" title="Recommencer">↺</button>
+  <button id="btnPlay" title="Lecture / Pause">⏸</button>
+  <div id="track"><div id="fill"></div><div id="ticks"></div></div>
+  <div id="time">0:00 / 0:00</div>
+</div>
+
+<script src="director.js"></script>
+</body>
+</html>
