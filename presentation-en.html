@@ -680,22 +680,22 @@ h3{font-size:17px;margin:0 0 4px}
 
         <div class="grid g2" style="margin-top:24px">
           <div class="card">
-            <h3>Détection TDS par IA</h3>
-            <p class="muted" style="font-size:13.5px;margin:6px 0 10px">Sur chaque facture fournisseur, l'IA détecte la retenue à la source applicable et calcule le net à payer.</p>
+            <h3>AI-driven TDS detection</h3>
+            <p class="muted" style="font-size:13.5px;margin:6px 0 10px">On every supplier invoice, the AI detects the applicable withholding tax and computes the net payable.</p>
             <table class="mt">
-              <tr><th>Nature</th><th class="r">Taux TDS</th></tr>
-              <tr><td>Loyer / rent / lease</td><td class="r mono">5 %</td></tr>
-              <tr><td>Honoraires</td><td class="r mono">3 %</td></tr>
-              <tr><td>Travaux</td><td class="r mono">0,75 %</td></tr>
-              <tr><td>Royalties · Director fees</td><td class="r mono">15 %</td></tr>
-              <tr><td>Artistes</td><td class="r mono">10 %</td></tr>
+              <tr><th>Type</th><th class="r">TDS rate</th></tr>
+              <tr><td>Rent / lease</td><td class="r mono">5%</td></tr>
+              <tr><td>Professional fees</td><td class="r mono">3%</td></tr>
+              <tr><td>Construction works</td><td class="r mono">0.75%</td></tr>
+              <tr><td>Royalties · Director fees</td><td class="r mono">15%</td></tr>
+              <tr><td>Performers</td><td class="r mono">10%</td></tr>
             </table>
-            <p class="muted" style="font-size:12px;margin-top:8px">Seuil 500 MUR · base HT prioritaire · sortie : <span class="mono">tds_amount_mur</span> + net fournisseur.</p>
+            <p class="muted" style="font-size:12px;margin-top:8px">500 MUR threshold · net-of-tax base prioritized · output: <span class="mono">tds_amount_mur</span> + supplier net.</p>
           </div>
           <div class="card">
-            <h3>e-Invoicing MRA (EBS) &amp; taux de change</h3>
-            <p class="muted" style="font-size:13.5px;margin:6px 0 10px">Supervision de la fiscalisation des factures auprès de l'EBS, et taux MUR/devise synchronisés depuis la Bank of Mauritius (IAS 21).</p>
-            <div class="kpis k4"><div class="kpi"><div class="kl">Éligibles</div><div class="kv">14</div></div><div class="kpi"><div class="kl">Fiscalisées</div><div class="kv">0</div></div><div class="kpi am"><div class="kl">En attente</div><div class="kv">14</div></div><div class="kpi gr"><div class="kl">Erreurs</div><div class="kv" style="color:var(--green)">0</div></div></div>
+            <h3>MRA e-invoicing (EBS) &amp; exchange rates</h3>
+            <p class="muted" style="font-size:13.5px;margin:6px 0 10px">Oversight of invoice fiscalization with the EBS, and MUR/currency rates synced from the Bank of Mauritius (IAS 21).</p>
+            <div class="kpis k4"><div class="kpi"><div class="kl">Eligible</div><div class="kv">14</div></div><div class="kpi"><div class="kl">Fiscalized</div><div class="kv">0</div></div><div class="kpi am"><div class="kl">Pending</div><div class="kv">14</div></div><div class="kpi gr"><div class="kl">Errors</div><div class="kv" style="color:var(--green)">0</div></div></div>
             <table class="mt" style="margin-top:8px">
               <tr><td>🇺🇸 USD</td><td class="r mono">47,3485</td><td>🇪🇺 EUR</td><td class="r mono">55,1572</td></tr>
               <tr><td>🇬🇧 GBP</td><td class="r mono">63,6132</td><td>🇨🇭 CHF</td><td class="r mono">60,4961</td></tr>
@@ -708,19 +708,19 @@ h3{font-size:17px;margin:0 0 4px}
     <!-- ============ IFRS ============ -->
     <section class="panel" id="panel-ifrs">
       <div class="wrap">
-        <span class="eyebrow">◫ IFRS &amp; Reporting avancé</span>
-        <h1>Des états financiers aux normes internationales</h1>
-        <p class="section-intro">Lexora produit des états <strong>IFRS for SMEs</strong> conformes au Companies Act 2001, et embarque des modules normalement réservés aux grands cabinets : <strong>provision ECL (IFRS 9)</strong>, <strong>leases (IFRS 16)</strong> et conversion de devise fonctionnelle (IAS 21).</p>
+        <span class="eyebrow">◫ Advanced IFRS &amp; reporting</span>
+        <h1>Financial statements to international standards</h1>
+        <p class="section-intro">Lexora produces <strong>IFRS for SMEs</strong> statements compliant with the Companies Act 2001, and ships modules normally reserved for the large firms: <strong>ECL provision (IFRS 9)</strong>, <strong>leases (IFRS 16)</strong> and functional currency conversion (IAS 21).</p>
 
-        <h2>Bilan &amp; compte de résultat</h2>
+        <h2>Balance sheet &amp; profit and loss</h2>
         <div class="mock">
           <div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">lexora.finance/client/bilan</span></div>
           <div class="mock-main" style="padding:18px">
             <div class="mh"><div><div class="t" style="text-align:center;width:100%">DIGITAL DATA SOLUTIONS LTD</div><div class="s" style="text-align:center">Prepared in accordance with IFRS for SMEs — Companies Act 2001 Mauritius</div></div></div>
-            <div class="btns" style="margin-bottom:12px"><span class="b">Télécharger PDF</span><span class="b">P&amp;L Excel</span><span class="b gold">P&amp;L PDF IFRS</span></div>
+            <div class="btns" style="margin-bottom:12px"><span class="b">Download PDF</span><span class="b">P&amp;L Excel</span><span class="b gold">P&amp;L PDF IFRS</span></div>
             <div class="mtabs"><span class="mtab on">Balance Sheet</span><span class="mtab">Profit &amp; Loss</span></div>
             <table class="mt">
-              <tr><th>Poste</th><th class="r">2025-2026 (MUR)</th><th class="r">2024-2025</th></tr>
+              <tr><th>Item</th><th class="r">2025-2026 (MUR)</th><th class="r">2024-2025</th></tr>
               <tr><td style="font-weight:700">NON-CURRENT ASSETS</td><td class="r mono">0,00</td><td class="r">—</td></tr>
               <tr><td>&nbsp;&nbsp;Trade Receivables</td><td class="r mono">908 813,98</td><td class="r">—</td></tr>
               <tr><td>&nbsp;&nbsp;Cash &amp; Bank</td><td class="r mono">24 780,88</td><td class="r">—</td></tr>
@@ -732,7 +732,7 @@ h3{font-size:17px;margin:0 0 4px}
         </div>
 
         <h2 style="margin-top:28px">IFRS 9 — Expected Credit Loss</h2>
-        <p class="section-intro">Le module le plus pointu : provision pour pertes de crédit attendues par contrepartie, avec <strong>stages 1/2/3</strong>, SICR automatique, PD/LGD paramétrables et ajustement <strong>forward-looking</strong> (macro).</p>
+        <p class="section-intro">The most advanced module: expected credit loss provision by counterparty, with <strong>stages 1/2/3</strong>, automatic SICR, configurable PD/LGD and a <strong>forward-looking</strong> (macro) adjustment.</p>
         <div class="mock">
           <div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/client/ifrs9-ecl</span></div>
           <div class="mock-main" style="padding:16px">
