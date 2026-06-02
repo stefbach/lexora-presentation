@@ -82,6 +82,12 @@ body{background:#000;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Rob
   border-radius:30px;padding:6px 13px;cursor:pointer;transition:.15s;white-space:nowrap}
 #chips .chip:hover{border-color:var(--gold);color:#fff}
 #chips .chip.on{background:linear-gradient(90deg,var(--gold),var(--gold-2));color:#241c00;font-weight:700;border-color:transparent}
+
+/* ===== Language switch (FR / EN) ===== */
+#lang{display:flex;gap:3px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:30px;padding:3px;flex:0 0 auto}
+#lang button{width:auto;height:34px;padding:0 14px;border-radius:30px;font-size:13px;font-weight:700;letter-spacing:.5px;background:transparent;border:0;color:#cfd5e6}
+#lang button:hover{background:rgba(216,180,63,.18);border-color:transparent;color:#fff}
+#lang button.on{background:linear-gradient(90deg,var(--gold),var(--gold-2));color:#241c00}
 </style>
 </head>
 <body>
@@ -139,7 +145,11 @@ body{background:#000;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Rob
 
 <!-- Controls -->
 <div id="controls">
-  <button id="btnRestart" title="Recommencer">↺</button>
+  <div id="lang">
+    <button data-lang="fr" title="Français">FR</button>
+    <button data-lang="en" title="English">EN</button>
+  </div>
+  <button id="btnRestart" title="Recommencer / Restart">↺</button>
   <button id="btnPlay" title="Lecture / Pause">⏸</button>
   <div id="track"><div id="fill"></div><div id="ticks"></div></div>
   <div id="time">0:00 / 0:00</div>

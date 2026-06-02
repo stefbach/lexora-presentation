@@ -16,22 +16,33 @@
   const INTRO = 7000;              // ms d'intro (titre)
   const PAGE_DUR = 22000;          // ms par page (défilement lent, temps de lire)
 
+  // ---- Langue (FR / EN) — sélecteur intégré ----
+  let lang = (localStorage.getItem('lexora_video_lang') === 'en') ? 'en' : 'fr';
+  const SRC = { fr: 'presentation.html', en: 'presentation-en.html' };
+  const I18N = {
+    fr: { badge: "Intelligent Accounting · powered by AI",
+          tagline: "L'ERP comptable piloté par l'IA — conçu pour l'Île Maurice" },
+    en: { badge: "Intelligent Accounting · powered by AI",
+          tagline: "The AI-driven accounting ERP — built for Mauritius" },
+  };
+
   // ---- Pages parcourues (ordre du menu) ----
+  // title / kicker sont bilingues : {fr, en}
   const PAGES = [
-    {key:'intro',    title:"Vue d'ensemble",            kicker:"Panorama plateforme", url:"lexora.finance/client/tableau-de-bord"},
-    {key:'philo',    title:"La philosophie Lexora",     kicker:"Le concept",          url:"lexora.finance/client/philosophie"},
-    {key:'compta',   title:"Comptabilité",              kicker:"Les modules",         url:"lexora.finance/client/factures"},
-    {key:'banque',   title:"Banque & Rapprochement IA", kicker:"Les modules",         url:"lexora.finance/client/rapprochement"},
-    {key:'mra',      title:"MRA & Fiscalité",           kicker:"Les modules",         url:"lexora.finance/client/mra-hub"},
-    {key:'ifrs',     title:"IFRS & Reporting",          kicker:"Les modules",         url:"lexora.finance/client/bilan"},
-    {key:'gbc',      title:"GBC Offshore",              kicker:"Les modules",         url:"lexora.finance/client/gbc-per"},
-    {key:'rh',       title:"RH & Paie",                 kicker:"Les modules",         url:"lexora.finance/rh"},
-    {key:'stocks',   title:"Stocks & Inventaire",       kicker:"Les modules",         url:"lexora.finance/client/stocks"},
-    {key:'agents',   title:"Agents IA",                 kicker:"Intelligence & pilotage", url:"lexora.finance/client/agents"},
-    {key:'mcp',      title:"MCP · Claude Desktop",      kicker:"Intelligence & pilotage", url:"lexora.finance/client/mcp-setup"},
-    {key:'telegram', title:"Telegram",                  kicker:"Intelligence & pilotage", url:"lexora.finance/client/telegram"},
-    {key:'archi',    title:"PCM & Architecture",        kicker:"Intelligence & pilotage", url:"lexora.finance/client/architecture"},
-    {key:'compare',  title:"Lexora vs Concurrents",     kicker:"Positionnement",      url:"lexora.finance/client/comparatif"},
+    {key:'intro',    title:{fr:"Vue d'ensemble",            en:"Overview"},                 kicker:{fr:"Panorama plateforme",       en:"Platform panorama"},     url:"lexora.finance/client/tableau-de-bord"},
+    {key:'philo',    title:{fr:"La philosophie Lexora",     en:"The Lexora philosophy"},    kicker:{fr:"Le concept",                en:"The concept"},           url:"lexora.finance/client/philosophie"},
+    {key:'compta',   title:{fr:"Comptabilité",              en:"Accounting"},               kicker:{fr:"Les modules",               en:"The modules"},           url:"lexora.finance/client/factures"},
+    {key:'banque',   title:{fr:"Banque & Rapprochement IA", en:"Banking & AI Reconciliation"}, kicker:{fr:"Les modules",            en:"The modules"},           url:"lexora.finance/client/rapprochement"},
+    {key:'mra',      title:{fr:"MRA & Fiscalité",           en:"MRA & Taxation"},           kicker:{fr:"Les modules",               en:"The modules"},           url:"lexora.finance/client/mra-hub"},
+    {key:'ifrs',     title:{fr:"IFRS & Reporting",          en:"IFRS & Reporting"},         kicker:{fr:"Les modules",               en:"The modules"},           url:"lexora.finance/client/bilan"},
+    {key:'gbc',      title:{fr:"GBC Offshore",              en:"GBC Offshore"},             kicker:{fr:"Les modules",               en:"The modules"},           url:"lexora.finance/client/gbc-per"},
+    {key:'rh',       title:{fr:"RH & Paie",                 en:"HR & Payroll"},             kicker:{fr:"Les modules",               en:"The modules"},           url:"lexora.finance/rh"},
+    {key:'stocks',   title:{fr:"Stocks & Inventaire",       en:"Stock & Inventory"},        kicker:{fr:"Les modules",               en:"The modules"},           url:"lexora.finance/client/stocks"},
+    {key:'agents',   title:{fr:"Agents IA",                 en:"AI Agents"},                kicker:{fr:"Intelligence & pilotage",   en:"Intelligence & steering"}, url:"lexora.finance/client/agents"},
+    {key:'mcp',      title:{fr:"MCP · Claude Desktop",      en:"MCP · Claude Desktop"},     kicker:{fr:"Intelligence & pilotage",   en:"Intelligence & steering"}, url:"lexora.finance/client/mcp-setup"},
+    {key:'telegram', title:{fr:"Telegram",                  en:"Telegram"},                 kicker:{fr:"Intelligence & pilotage",   en:"Intelligence & steering"}, url:"lexora.finance/client/telegram"},
+    {key:'archi',    title:{fr:"PCM & Architecture",        en:"PCM & Architecture"},       kicker:{fr:"Intelligence & pilotage",   en:"Intelligence & steering"}, url:"lexora.finance/client/architecture"},
+    {key:'compare',  title:{fr:"Lexora vs Concurrents",     en:"Lexora vs Competitors"},    kicker:{fr:"Positionnement",            en:"Positioning"},           url:"lexora.finance/client/comparatif"},
   ];
   const N = PAGES.length;
 
@@ -71,6 +82,7 @@
   const chips   = document.getElementById('chips');
   const btnPlay = document.getElementById('btnPlay');
   const btnRestart = document.getElementById('btnRestart');
+  const langBtns = [...document.querySelectorAll('#lang button')];
 
   // ---- Easings ----
   const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
@@ -100,6 +112,8 @@
       appDoc.body.style.scrollBehavior='auto';
     }catch(e){}
     ready = true;
+    measured = false;            // re-mesure à chaque (re)chargement / changement de langue
+    renderedPage = -1;           // force le re-rendu de la page courante
     // Mesure la densité de chaque page pour adapter sa durée
     setTimeout(measureDurations, 120);
   });
@@ -157,8 +171,8 @@
   function updateChapter(i){
     const p = PAGES[i];
     chapter.querySelector('.idx').textContent = String(i+1).padStart(2,'0');
-    chapter.querySelector('.ct').textContent = p.kicker;
-    chapter.querySelector('.cn').textContent = p.title;
+    chapter.querySelector('.ct').textContent = p.kicker[lang];
+    chapter.querySelector('.cn').textContent = p.title[lang];
     chapter.animate(
       [{opacity:0, transform:'translateY(16px)'},{opacity:1, transform:'translateY(0)'}],
       {duration:560, easing:'cubic-bezier(.22,.61,.36,1)', fill:'forwards'}
@@ -309,12 +323,36 @@
     else if(e.code==='ArrowLeft') seek(elapsed-5000);
   });
 
+  // ===== Langue (FR / EN) =====
+  // Applique les textes statiques (badge + tagline d'intro) selon la langue.
+  function applyStaticLang(){
+    document.documentElement.lang = lang;
+    badge.textContent = I18N[lang].badge;
+    tagline.innerHTML = I18N[lang].tagline + '<span id="tdot"></span>';
+    langBtns.forEach(b=>b.classList.toggle('on', b.dataset.lang===lang));
+  }
+  function setLang(l){
+    if(l!=='fr' && l!=='en') return;
+    const changed = (l!==lang);
+    lang = l;
+    localStorage.setItem('lexora_video_lang', lang);
+    applyStaticLang();
+    buildChips();                 // libellés des chapitres dans la nouvelle langue
+    if(renderedPage>=0) updateChapter(renderedPage);
+    if(changed){
+      // recharge la présentation dans la bonne langue → re-mesure des durées
+      ready = false; measured = false; renderedPage = -1;
+      appFr.src = SRC[lang];
+    }
+  }
+  langBtns.forEach(b=> b.addEventListener('click', ()=> setLang(b.dataset.lang)) );
+
   // ===== Chips chapitres + ticks (positions selon la timeline réelle) =====
   function buildChips(){
     chips.innerHTML = ''; ticks.innerHTML = '';
     PAGES.forEach((p,i)=>{
       const c = document.createElement('div');
-      c.className='chip'; c.textContent=(i+1)+'. '+p.title;
+      c.className='chip'; c.textContent=(i+1)+'. '+p.title[lang];
       c.addEventListener('click', ()=>{ seek(starts[i]); setPlaying(true); });
       chips.appendChild(c);
       const tk = document.createElement('div');
@@ -325,11 +363,14 @@
   buildChips();
 
   // ===== Démarrage =====
+  applyStaticLang();
+  // pointe l'iframe vers la présentation dans la langue mémorisée
+  if(appFr.getAttribute('src') !== SRC[lang]) appFr.src = SRC[lang];
   const saved = parseInt(localStorage.getItem('lexora_video_t')||'0',10);
   if(saved>0 && saved<TOTAL) elapsed = saved;
   setPlaying(true);
   requestAnimationFrame(loop);
 
   // hook de vérification (sans effet sur la lecture)
-  window.LexoraVideo = { seek, render, get t(){return elapsed;}, get TOTAL(){return TOTAL;}, get durs(){return durs;}, get starts(){return starts;}, get measured(){return measured;} };
+  window.LexoraVideo = { seek, render, setLang, get lang(){return lang;}, get t(){return elapsed;}, get TOTAL(){return TOTAL;}, get durs(){return durs;}, get starts(){return starts;}, get measured(){return measured;} };
 })();
