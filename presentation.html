@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lexora — Panorama complet de la plateforme</title>
+<style>
+:root{
+  --navy:#0d1530; --navy2:#070b1a; --navy-rail:#0a1024;
+  --gold:#d8b43f; --gold-2:#e7c75a; --gold-soft:#f3e6b8;
+  --ink:#1a2236; --muted:#6b7488; --muted2:#9aa1b2;
+  --bg:#f6f7f9; --card:#ffffff; --line:#e7e9ef; --line2:#eef0f4;
+  --green:#15a97c; --green-soft:#e7f7f0;
+  --red:#e0484d; --red-soft:#fdeaea;
+  --amber:#e0a200; --amber-soft:#fdf3d6;
+  --purple:#6d5cf5; --purple-soft:#ece9ff;
+  --teal:#1ea7a0; --blue:#3a6df0; --blue-soft:#e9f0fe;
+  --shadow:0 8px 30px rgba(13,21,48,.10);
+  --shadow-sm:0 2px 10px rgba(13,21,48,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+/* ===== App shell ===== */
+.shell{display:flex;min-height:100vh}
+.rail{width:264px;flex:0 0 264px;background:linear-gradient(180deg,#0e1633 0%,#080d20 100%);color:#cfd5e6;position:sticky;top:0;height:100vh;overflow-y:auto;padding:22px 14px 40px}
+.rail::-webkit-scrollbar{width:7px}.rail::-webkit-scrollbar-thumb{background:#243056;border-radius:8px}
+.brand{display:flex;align-items:center;gap:8px;padding:4px 10px 2px}
+.brand .logo{font-weight:800;letter-spacing:1px;font-size:22px;color:#fff}
+.brand .logo b{color:var(--gold)}
+.brand .dot{width:8px;height:8px;border-radius:50%;background:#39d98a;box-shadow:0 0 8px #39d98a}
+.brand-sub{font-size:10px;letter-spacing:2px;color:#7c87a6;padding:2px 10px 18px;text-transform:uppercase}
+.rail-group{font-size:10.5px;letter-spacing:1.5px;color:#717ea6;text-transform:uppercase;padding:16px 12px 6px;display:flex;align-items:center;gap:6px}
+.rail-group::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.nav-item{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:10px;font-size:13.5px;color:#c2c9dc;cursor:pointer;transition:.15s;margin:1px 0}
+.nav-item:hover{background:#161f3e;color:#fff}
+.nav-item.active{background:linear-gradient(90deg,var(--gold) 0%,var(--gold-2) 100%);color:#241c00;font-weight:700;box-shadow:0 4px 14px rgba(216,180,63,.3)}
+.nav-item .ic{width:18px;text-align:center;font-size:15px;opacity:.9}
+.nav-item.active .ic{opacity:1}
+
+/* ===== Main ===== */
+.main{flex:1;min-width:0}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(246,247,249,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:12px 34px;display:flex;align-items:center;justify-content:space-between}
+.topbar .crumb{font-size:13px;color:var(--muted)}
+.topbar .crumb b{color:var(--ink)}
+.topbar .badge-soc{font-size:12px;background:#fff;border:1px solid var(--line);border-radius:30px;padding:6px 14px;color:var(--ink);font-weight:600}
+.wrap{max-width:1080px;margin:0 auto;padding:38px 34px 90px}
+.panel{display:none;animation:fade .35s ease}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ===== Typography ===== */
+.eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:var(--gold);background:var(--gold-soft);padding:5px 12px;border-radius:30px}
+h1{font-size:34px;line-height:1.15;margin:16px 0 10px;letter-spacing:-.5px}
+h2{font-size:25px;margin:6px 0 8px;letter-spacing:-.3px}
+h3{font-size:17px;margin:0 0 4px}
+.lead{font-size:16.5px;color:#46506a;max-width:760px}
+.muted{color:var(--muted)}
+.section-intro{max-width:780px;color:#46506a;font-size:15.5px;margin-bottom:22px}
+.section-intro strong{color:var(--ink)}
+
+/* ===== Cards / grids ===== */
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:920px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm)}
+.feat{padding:18px}
+.feat .fic{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:12px;background:var(--blue-soft)}
+.feat h3{font-size:15.5px}
+.feat p{font-size:13.5px;color:var(--muted);margin-top:3px}
+
+/* stat tiles */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0}
+@media(max-width:920px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:linear-gradient(160deg,#fff,#fbfbfd);border:1px solid var(--line);border-radius:16px;padding:18px 18px}
+.stat .n{font-size:30px;font-weight:800;letter-spacing:-1px;background:linear-gradient(90deg,var(--gold),#b98e1f);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat .l{font-size:12.5px;color:var(--muted);margin-top:2px}
+
+/* ===== App mockup frame ===== */
+.mock{border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);background:#fff;margin:8px 0 6px}
+.mock-bar{display:flex;align-items:center;gap:7px;padding:9px 14px;background:#0e1633;border-bottom:1px solid #0a0f22}
+.mock-bar .d{width:11px;height:11px;border-radius:50%}
+.mock-bar .d.r{background:#ff5f57}.mock-bar .d.y{background:#febc2e}.mock-bar .d.g{background:#28c840}
+.mock-bar .url{margin-left:12px;font-size:11.5px;color:#8b95b5;background:#1a2342;padding:3px 12px;border-radius:20px;font-family:ui-monospace,monospace}
+.mock-body{display:flex;min-height:120px}
+.mock-side{width:120px;flex:0 0 120px;background:linear-gradient(180deg,#0e1633,#080d20);padding:12px 8px}
+.mock-side .ml{font-size:10.5px;color:#aeb6cc;padding:6px 8px;border-radius:7px;margin:2px 0;display:flex;gap:6px;align-items:center}
+.mock-side .ml.on{background:var(--gold);color:#241c00;font-weight:700}
+.mock-side .ml .x{opacity:.7}
+.mock-main{flex:1;padding:18px 20px;background:#fafbfc;min-width:0}
+.mh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.mh .t{font-size:17px;font-weight:700}
+.mh .s{font-size:12px;color:var(--muted)}
+.btns{display:flex;gap:7px;flex-wrap:wrap}
+.b{font-size:11.5px;padding:6px 11px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:600;white-space:nowrap}
+.b.green{background:linear-gradient(90deg,#15a97c,#13b285);color:#fff;border:none}
+.b.purple{background:linear-gradient(90deg,#6d5cf5,#8a6df3);color:#fff;border:none}
+.b.gold{background:linear-gradient(90deg,var(--gold),var(--gold-2));color:#241c00;border:none}
+
+/* KPI row inside mock */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpis.k3{grid-template-columns:repeat(3,1fr)}
+.kpis.k5{grid-template-columns:repeat(5,1fr)}
+@media(max-width:720px){.kpis,.kpis.k3,.kpis.k5{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 12px}
+.kpi.act{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+.kpi.gr{background:var(--green-soft);border-color:#bfe9d7}
+.kpi.rd{background:var(--red-soft);border-color:#f3cdce}
+.kpi.am{background:var(--amber-soft);border-color:#f0dca0}
+.kpi .kl{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
+.kpi .kv{font-size:18px;font-weight:800;margin-top:3px;letter-spacing:-.5px}
+.kpi .kv.sm{font-size:14px}
+.kpi .ks{font-size:10px;color:var(--muted2);margin-top:1px}
+
+/* mini table */
+.mt{width:100%;border-collapse:collapse;font-size:11.5px}
+.mt th{text-align:left;color:var(--muted);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.4px;padding:7px 9px;border-bottom:1px solid var(--line)}
+.mt td{padding:8px 9px;border-bottom:1px solid var(--line2)}
+.mt td.r,.mt th.r{text-align:right}
+.mt tr:last-child td{border-bottom:none}
+.tag{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:20px;vertical-align:middle}
+.tag.g{background:var(--green-soft);color:#0c7a59}
+.tag.r{background:var(--red-soft);color:#b22a2e}
+.tag.a{background:var(--amber-soft);color:#9a7400}
+.tag.b{background:var(--blue-soft);color:#244fb0}
+.tag.p{background:var(--purple-soft);color:#4a3bc4}
+.tag.gr2{background:#eef0f4;color:#5a6378}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* tabs inside mock */
+.mtabs{display:flex;gap:14px;border-bottom:1px solid var(--line);margin-bottom:12px;flex-wrap:wrap}
+.mtab{font-size:12px;padding:7px 2px;color:var(--muted);font-weight:600;border-bottom:2px solid transparent;margin-bottom:-1px}
+.mtab.on{color:var(--ink);border-color:var(--gold)}
+
+/* callout */
+.note{background:#fff;border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:10px;padding:13px 16px;font-size:13.5px;color:#46506a;margin:14px 0}
+.note b{color:var(--ink)}
+.note.ai{border-left-color:var(--purple);background:linear-gradient(90deg,#faf9ff,#fff)}
+.note.gr{border-left-color:var(--green)}
+
+/* explanation list */
+.exp{list-style:none;margin:12px 0}
+.exp li{position:relative;padding:7px 0 7px 28px;font-size:14.5px;color:#46506a;border-bottom:1px solid var(--line2)}
+.exp li:last-child{border-bottom:none}
+.exp li::before{content:"";position:absolute;left:4px;top:13px;width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.exp li b{color:var(--ink)}
+
+.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.pill{font-size:12px;background:#fff;border:1px solid var(--line);border-radius:30px;padding:6px 13px;color:#46506a;font-weight:600}
+.pill .em{color:var(--gold)}
+
+/* chat bubbles */
+.chat{background:#fafbfc;border:1px solid var(--line);border-radius:12px;padding:16px}
+.bub{max-width:88%;padding:11px 14px;border-radius:14px;font-size:13px;margin:8px 0}
+.bub.ai{background:#f1f3f8;border:1px solid var(--line);color:#2c3650}
+.bub.me{background:#0e1633;color:#e8ecf7;margin-left:auto}
+.bub .av{font-size:11px;font-weight:700;color:var(--purple);margin-bottom:4px}
+.bub.md{font-size:12.5px}
+.bub.md table{width:100%;border-collapse:collapse;margin:6px 0;font-size:11px}
+.bub.md td,.bub.md th{border:1px solid #d7dcea;padding:3px 6px;text-align:left}
+.bub.md h4{font-size:12.5px;margin:8px 0 3px}
+
+.foot{max-width:1080px;margin:0 auto;padding:26px 34px 60px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line)}
+.hero-grad{background:radial-gradient(900px 380px at 12% -10%,rgba(216,180,63,.14),transparent),radial-gradient(700px 360px at 95% 0%,rgba(109,92,245,.10),transparent)}
+.disclaimer{font-size:12px;color:var(--muted2);background:#fff;border:1px dashed var(--line);border-radius:10px;padding:10px 14px;margin-top:18px}
+.archcol{display:grid;grid-template-columns:1.1fr 1fr;gap:16px}
+@media(max-width:920px){.archcol{grid-template-columns:1fr}}
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px}
+.flow .node{background:#fff;border:1px solid var(--line);border-radius:9px;padding:7px 11px;font-weight:600}
+.flow .arr{color:var(--gold);font-weight:800}
+/* steps / philosophy */
+.steps{counter-reset:s;margin:18px 0}
+.step{position:relative;display:flex;gap:16px;padding:0 0 26px 0}
+.step:not(:last-child)::before{content:"";position:absolute;left:21px;top:44px;bottom:-2px;width:2px;background:linear-gradient(var(--gold),var(--line))}
+.step .num{counter-increment:s;flex:0 0 44px;width:44px;height:44px;border-radius:13px;background:linear-gradient(145deg,#0e1633,#1a2342);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;box-shadow:var(--shadow-sm)}
+.step .num::before{content:counter(s)}
+.step .sc{flex:1;background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 18px;box-shadow:var(--shadow-sm)}
+.step .sc h3{font-size:16px;margin-bottom:3px}
+.step .sc p{font-size:13.5px;color:#46506a}
+.bigflow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin:18px 0;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.bigflow .bf{flex:1;min-width:150px;background:#fff;padding:16px 16px;border-right:1px solid var(--line);position:relative}
+.bigflow .bf:last-child{border-right:none}
+.bigflow .bf .ico{font-size:22px;margin-bottom:7px}
+.bigflow .bf h4{font-size:13.5px;margin-bottom:3px}
+.bigflow .bf p{font-size:11.5px;color:var(--muted)}
+.bigflow .bf.hl{background:linear-gradient(160deg,#11193a,#0a1024);color:#eef1fa}
+.bigflow .bf.hl p{color:#9fa9c6}
+.bigflow .bf.hl h4{color:var(--gold)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+@media(max-width:720px){.split{grid-template-columns:1fr}}
+.split .sh{padding:16px 18px}
+.split .sh.a{background:#fff;border-right:1px solid var(--line)}
+.split .sh.b{background:#fafbfc}
+.tl{font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:8px}
+.roadmap-badge{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#9a7400;background:var(--amber-soft);border:1px solid #f0dca0;border-radius:30px;padding:4px 11px}
+/* ===== Telegram phones ===== */
+.phones{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:18px 0}
+@media(max-width:920px){.phones{grid-template-columns:1fr}}
+.phone{background:#0d1726;border:7px solid #11131c;border-radius:30px;padding:0;overflow:hidden;box-shadow:var(--shadow)}
+.phone .pt{background:#17212b;color:#fff;display:flex;align-items:center;gap:9px;padding:11px 13px}
+.phone .pt .pa{width:30px;height:30px;border-radius:50%;background:linear-gradient(145deg,#2aabee,#229ed9);display:flex;align-items:center;justify-content:center;font-size:15px}
+.phone .pt .pn{font-size:12.5px;font-weight:700}
+.phone .pt .ps{font-size:10px;color:#7e94a6}
+.tgwin{background:#0e1621;background-image:radial-gradient(circle at 20% 10%,rgba(43,82,120,.25),transparent 40%);padding:12px 11px;min-height:170px}
+.tg{max-width:84%;padding:8px 11px;border-radius:13px;font-size:11.5px;margin:7px 0;line-height:1.45;position:relative;white-space:pre-line}
+.tg.in{background:#182533;color:#e7eef5;border-bottom-left-radius:4px}
+.tg.out{background:#2b5278;color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+.tg .tgh{font-size:10px;font-weight:700;color:#5fb3f0;margin-bottom:3px}
+.tg .photo{background:#0c1118;border:1px dashed #38506a;border-radius:8px;padding:14px;text-align:center;font-size:11px;color:#9fb3c8;margin-bottom:5px}
+.tg .tgbtns{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.tg .tgb{font-size:10px;background:#1c2e40;border:1px solid #2f4a63;color:#cfe3f5;border-radius:7px;padding:4px 9px;font-weight:600}
+.tg .tgb.ok{background:#173a2c;border-color:#1f6e4f;color:#7ee0b4}
+.tg .ts{font-size:9px;color:#6f8aa3;text-align:right;margin-top:3px}
+.tg .doc{display:flex;align-items:center;gap:8px;background:#0c1118;border-radius:8px;padding:8px 10px;margin-top:5px}
+.tg .doc .di{width:26px;height:30px;background:#e0484d;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:800}
+.tg .doc .dn{font-size:10.5px;color:#dbe6f0}.tg .doc .dz{font-size:9px;color:#7e94a6}
+/* ===== Report document ===== */
+.doc-frame{border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;background:#525a6b}
+.doc-toolbar{background:#3a4252;color:#cdd3df;font-size:11.5px;padding:8px 14px;display:flex;align-items:center;justify-content:space-between}
+.doc-toolbar .b{background:#fff}
+.doc-page{background:#fff;margin:16px auto;width:92%;max-width:680px;padding:34px 38px;box-shadow:0 4px 18px rgba(0,0,0,.25);font-size:12.5px;color:#222}
+.doc-page+.doc-page{margin-top:0}
+.rep-cover{border-bottom:3px solid var(--gold);padding-bottom:14px;margin-bottom:16px}
+.rep-cover .lg{font-weight:800;letter-spacing:1px;font-size:18px}.rep-cover .lg b{color:var(--gold)}
+.rep-cover h2{font-size:21px;margin:14px 0 4px;color:#0e1633}
+.rep-cover .sub{color:#6b7488;font-size:12px}
+.rep h3{font-size:14px;color:#0e1633;border-left:3px solid var(--gold);padding-left:9px;margin:18px 0 8px}
+.rep p{font-size:12px;color:#39435a;margin:6px 0;line-height:1.6}
+.rep table{width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0}
+.rep th{background:#0e1633;color:#fff;text-align:left;padding:6px 9px;font-size:10.5px}
+.rep td{padding:6px 9px;border-bottom:1px solid #eceef3}
+.rep td.r,.rep th.r{text-align:right;font-variant-numeric:tabular-nums}
+.rep .kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.rep .kc{border:1px solid #e7e9ef;border-radius:9px;padding:9px}
+.rep .kc .l{font-size:9.5px;color:#6b7488;text-transform:uppercase}
+.rep .kc .v{font-size:16px;font-weight:800;color:#0e1633}
+.rep .rec{background:#faf7ec;border:1px solid #ece0b8;border-radius:9px;padding:10px 13px;margin:7px 0;font-size:11.5px}
+.rep .rec b{color:#8a6d1a}
+.rep .flag{display:inline-block;font-size:9px;font-weight:800;padding:2px 7px;border-radius:20px}
+.rep .flag.r{background:#fdeaea;color:#b22a2e}.rep .flag.g{background:#e7f7f0;color:#0c7a59}.rep .flag.a{background:#fdf3d6;color:#9a7400}
+
+/* ===== Comparison matrix ===== */
+.cmp{width:100%;border-collapse:separate;border-spacing:0;font-size:11.5px;margin:6px 0 4px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.cmp th{background:#0e1633;color:#fff;padding:9px 6px;font-size:10.5px;font-weight:700;text-align:center}
+.cmp th.feat{text-align:left;width:40%;padding-left:12px}
+.cmp th.lex{background:linear-gradient(180deg,#cda529,#e0bd4a);color:#241c00}
+.cmp td{padding:7px 6px;border-bottom:1px solid var(--line2);text-align:center;font-size:13.5px}
+.cmp td.feat{text-align:left;font-size:11.5px;color:#3a435a;padding-left:12px}
+.cmp td.lexcol{background:#fdf8e8}
+.cmp tbody tr:last-child td{border-bottom:none}
+.cmp tbody tr:hover td{background:#f7f8fb}
+.cmp tbody tr:hover td.lexcol{background:#fbf2d6}
+.cmp .y{color:#15a97c;font-weight:800}
+.cmp .p{color:#e0a200;font-weight:800}
+.cmp .a2{color:#3a6df0;font-weight:800}
+.cmp .n{color:#c0c4d0;font-weight:700}
+.cmp-cap{font-size:11.5px;color:var(--gold);font-weight:600;font-style:italic;margin:0 0 6px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:#46506a;margin:12px 0 4px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.legend b{font-size:14px;margin-right:3px}
+
+/* ============================================================
+   COUCHE MOUVEMENT — ajoutée par-dessus le design existant.
+   N'altère aucune couleur / mise en page : apporte la vie.
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference){
+
+  /* ----- Logo vivant ----- */
+  .brand{position:relative}
+  .brand .logo{
+    position:relative;
+    background:linear-gradient(100deg,#ffffff 0%,#ffffff 38%,var(--gold-2) 50%,#ffffff 62%,#ffffff 100%);
+    background-size:260% 100%;background-position:130% 0;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    animation:logoShine 7s ease-in-out infinite;
+  }
+  .brand .logo b{ -webkit-text-fill-color:var(--gold); color:var(--gold); display:inline-block;
+    animation:xGlint 7s ease-in-out infinite; }
+  @keyframes logoShine{0%,55%{background-position:130% 0}82%,100%{background-position:-130% 0}}
+  @keyframes xGlint{
+    0%,66%,100%{transform:scale(1);filter:drop-shadow(0 0 0 rgba(231,199,90,0))}
+    78%{transform:scale(1.22) rotate(-3deg);filter:drop-shadow(0 0 7px rgba(231,199,90,.9))}
+    88%{transform:scale(1) rotate(0)}
+  }
+  /* point vert : lueur + onde radar */
+  .brand .dot{position:relative;animation:dotGlow 2.8s ease-in-out infinite}
+  .brand .dot::after{content:"";position:absolute;inset:-2px;border-radius:50%;
+    border:2px solid #39d98a;opacity:0;animation:dotPing 2.8s cubic-bezier(.2,.7,.2,1) infinite}
+  @keyframes dotGlow{0%,100%{box-shadow:0 0 7px #39d98a}50%{box-shadow:0 0 15px #39d98a}}
+  @keyframes dotPing{0%{transform:scale(.7);opacity:.65}80%,100%{transform:scale(2.6);opacity:0}}
+
+  /* ----- Apparition en cascade : pilotée en JS (fail-safe) ----- */
+  /* Le contenu reste visible par défaut ; le JS gère l'entrée. */
+
+  /* ----- Micro-interactions au survol ----- */
+  .card,.stat{transition:transform .26s cubic-bezier(.2,.7,.2,1),box-shadow .26s ease}
+  .card:hover,.stat:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .feat .fic{transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+  .feat:hover .fic{transform:scale(1.1) rotate(-4deg)}
+  .nav-item{transition:background .15s,color .15s,transform .18s ease}
+  .nav-item:hover{transform:translateX(3px)}
+  .b{transition:transform .16s ease,box-shadow .16s ease,filter .16s ease}
+  .b:hover{transform:translateY(-1px);filter:brightness(1.04)}
+  .pill{transition:transform .18s ease,border-color .18s ease}
+  .pill:hover{transform:translateY(-2px);border-color:var(--gold)}
+  .kpi{transition:transform .22s ease,box-shadow .22s ease}
+  .kpi:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+
+  /* ----- Dérive douce du dégradé d'accueil ----- */
+  .hero-grad{animation:heroDrift 22s ease-in-out infinite alternate}
+  @keyframes heroDrift{from{background-position:0 0,0 0}to{background-position:46px 26px,-34px 14px}}
+
+  /* ----- Reflet doré qui balaie la colonne LEXORA du comparatif ----- */
+  .cmp th.lex{position:relative;overflow:hidden}
+  .cmp th.lex::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);
+    transform:translateX(-130%);animation:goldSweep 4.5s ease-in-out infinite}
+  @keyframes goldSweep{0%,62%{transform:translateX(-130%)}100%{transform:translateX(130%)}}
+
+  /* ----- Badge AGENT IA : pulsation discrète ----- */
+  .tag.p{animation:tagPulse 2.6s ease-in-out infinite}
+  @keyframes tagPulse{0%,100%{box-shadow:0 0 0 0 rgba(109,92,245,0)}50%{box-shadow:0 0 0 3px rgba(109,92,245,.16)}}
+
+  /* ----- Avatar bot Telegram : léger flottement ----- */
+  .phone .pt .pa{animation:botFloat 3.4s ease-in-out infinite}
+  @keyframes botFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <!-- ===== RAIL ===== -->
+  <aside class="rail">
+    <div class="brand"><span class="logo">LE<b>X</b>ORA</span><span class="dot"></span></div>
+    <div class="brand-sub">Panorama plateforme</div>
+    <div class="rail-group">Le concept</div>
+    <div class="nav-item active" data-p="intro"><span class="ic">◎</span> Vue d'ensemble</div>
+    <div class="nav-item" data-p="philo"><span class="ic">✧</span> La philosophie Lexora</div>
+    <div class="rail-group">Les modules</div>
+    <div class="nav-item" data-p="compta"><span class="ic">▤</span> Comptabilité</div>
+    <div class="nav-item" data-p="banque"><span class="ic">▦</span> Banque &amp; Rapprochement IA</div>
+    <div class="nav-item" data-p="mra"><span class="ic">▣</span> MRA &amp; Fiscalité</div>
+    <div class="nav-item" data-p="ifrs"><span class="ic">◫</span> IFRS &amp; Reporting</div>
+    <div class="nav-item" data-p="gbc"><span class="ic">◍</span> GBC Offshore</div>
+    <div class="nav-item" data-p="rh"><span class="ic">☷</span> RH &amp; Paie</div>
+    <div class="nav-item" data-p="stocks"><span class="ic">▩</span> Stocks &amp; Inventaire</div>
+    <div class="rail-group">Intelligence &amp; pilotage</div>
+    <div class="nav-item" data-p="agents"><span class="ic">✦</span> Agents IA</div>
+    <div class="nav-item" data-p="mcp"><span class="ic">⌘</span> MCP · Claude Desktop</div>
+    <div class="nav-item" data-p="telegram"><span class="ic">✈</span> Telegram</div>
+    <div class="nav-item" data-p="archi"><span class="ic">⌬</span> PCM &amp; Architecture</div>
+    <div class="rail-group">Positionnement</div>
+    <div class="nav-item" data-p="compare"><span class="ic">&#9876;</span> Lexora vs Concurrents</div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main">
+    <div class="topbar">
+      <div class="crumb">Lexora · <b id="crumb">Vue d'ensemble</b></div>
+      <div class="badge-soc">Société démo · Digital Data Solutions Ltd</div>
+    </div>
+
+    <!-- PANELS -->
+    <div id="panels">
+
+    <!-- ============ INTRO ============ -->
+    <section class="panel active hero-grad" id="panel-intro">
+      <div class="wrap">
+        <span class="eyebrow">◆ Propulsé par l'Intelligence Artificielle</span>
+        <h1>Lexora — l'ERP comptable piloté par l'IA,<br>conçu pour l'Île Maurice</h1>
+        <p class="lead">Une plateforme unique qui réunit comptabilité, fiscalité MRA, normes IFRS, conformité offshore GBC et paie RH — le tout orchestré par <strong>18 agents d'intelligence artificielle</strong> ancrés dans le droit mauricien (Companies Act 2001, Workers' Rights Act 2019, Finance Act 2024, BEPS 2.0).</p>
+
+        <div class="stats">
+          <div class="stat"><div class="n">18</div><div class="l">Agents IA (4 conversationnels + 14 spécialisés)</div></div>
+          <div class="stat"><div class="n">162</div><div class="l">Outils pilotables par Telegram (97 actions · 65 lectures)</div></div>
+          <div class="stat"><div class="n">135+</div><div class="l">Pages applicatives (90 client + 45 RH/salarié)</div></div>
+          <div class="stat"><div class="n">218</div><div class="l">Comptes du Plan Comptable Mauricien (7 classes)</div></div>
+        </div>
+
+        <h2 style="margin-top:14px">Ce qui rend Lexora novatrice</h2>
+        <p class="section-intro">Là où les ERP classiques s'arrêtent à la saisie, Lexora <strong>comprend, propose et exécute</strong>. Chaque écran combine une couche déterministe (règles métier mauriciennes) et une couche générative (agents Claude) — sous contrôle humain permanent.</p>
+        <div class="grid g3">
+          <div class="card feat"><div class="fic" style="background:var(--purple-soft)">✦</div><h3>IA agentique métier</h3><p>Des agents qui lisent vos données, citent la loi (ITA, WRA) et déclenchent des actions après votre validation.</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--green-soft)">▦</div><h3>Rapprochement automatique</h3><p>8 stratégies de lettrage en cascade + classification PCM (R01–R06) sur vos relevés bancaires.</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--amber-soft)">▣</div><h3>Conformité MRA native</h3><p>TVA, TDS, PAYE/CSG/NSF, e-invoicing EBS, IT Form 3, ROC — calculés et pré-remplis.</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--blue-soft)">◫</div><h3>IFRS de bout en bout</h3><p>Bilan IFRS for SMEs, ECL IFRS 9, leases IFRS 16, conversion de devise IAS 21.</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--purple-soft)">◍</div><h3>Offshore GBC</h3><p>Partial Exemption 80 %, substance CIGA, registre UBO, BEPS Pillar Two / GloBE.</p></div>
+          <div class="card feat"><div class="fic" style="background:#e8f6f5">☷</div><h3>Paie RH conforme WRA</h3><p>Bulletins, congés glissants, 13ᵉ mois, provisions IAS 19, exports virement SWIFT.</p></div>
+        </div>
+
+        <h2 style="margin-top:34px">Le tableau de bord financier</h2>
+        <p class="section-intro">Point d'entrée de l'espace client : KPIs du mois et de l'exercice, évolution mensuelle, alertes proactives et gestion multi-sociétés.</p>
+        <div class="mock">
+          <div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">lexora.finance/client/tableau-de-bord</span></div>
+          <div class="mock-body">
+            <div class="mock-side">
+              <div class="ml on"><span class="x">▦</span> Tableau de bord</div>
+              <div class="ml"><span class="x">▢</span> Mes Sociétés</div>
+              <div class="ml"><span class="x">▤</span> Documents &amp; OCR</div>
+              <div class="ml"><span class="x">✦</span> Lex OCR</div>
+              <div class="ml"><span class="x">⚑</span> Alertes</div>
+              <div class="ml"><span class="x">▥</span> Mes Factures</div>
+              <div class="ml"><span class="x">▦</span> Banque</div>
+            </div>
+            <div class="mock-main">
+              <div class="mh"><div><div class="t">Bonjour Stephane</div><div class="s">Juin 2026 · Digital Data Solutions Ltd · BRN C20173522</div></div></div>
+              <div class="s muted" style="font-size:11px;margin-bottom:6px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Exercice fiscal · Juil. 2025 → Juin 2026</div>
+              <div class="kpis k4">
+                <div class="kpi"><div class="kl">CA exercice</div><div class="kv" style="color:var(--green)">10 975 920</div><div class="ks">MUR</div></div>
+                <div class="kpi"><div class="kl">Dépenses</div><div class="kv">8 993 284</div><div class="ks">MUR</div></div>
+                <div class="kpi"><div class="kl">Résultat net</div><div class="kv" style="color:var(--blue)">1 982 637</div><div class="ks">MUR</div></div>
+                <div class="kpi"><div class="kl">Trésorerie</div><div class="kv">24 781</div><div class="ks">MCB · SBM · MUR+EUR</div></div>
+              </div>
+              <div class="s muted" style="font-size:11px;margin:10px 0 6px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">⚑ Alertes &amp; rappels</div>
+              <table class="mt">
+                <tr><td><span class="tag r">Solde faible</span> &nbsp;MCB MUR ·4555</td><td class="r mono">0 MUR / seuil 50 000</td></tr>
+                <tr><td><span class="tag r">Solde faible</span> &nbsp;MCB MUR ·4555</td><td class="r mono">2 451,59 MUR / 50 000</td></tr>
+                <tr><td><span class="tag a">Multi-sociétés</span> &nbsp;GBL TEST · Digital Data Solutions · Obesity Care Clinic</td><td class="r">3 sociétés actives</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <p class="muted" style="font-size:12.5px">Écran réel recréé — un graphe « Évolution mensuelle » (CA / Dépenses / Résultat) complète la page sous les KPIs.</p>
+
+        <div class="disclaimer">ℹ️ Astuce de navigation : utilisez le menu latéral gauche pour parcourir chaque module. Chaque section contient des recréations fidèles des écrans et l'explication de leur fonctionnement.</div>
+      </div>
+    </section>
+
+    <!-- ============ PHILOSOPHIE ============ -->
+    <section class="panel" id="panel-philo">
+      <div class="wrap">
+        <span class="eyebrow">✧ La philosophie Lexora</span>
+        <h1>« Tu scannes. La magie opère. »</h1>
+        <p class="lead">L'idée fondatrice de Lexora tient en une phrase : <strong>l'utilisateur ne saisit plus la comptabilité — il la déclenche.</strong> Une photo d'un ticket, un PDF de facture, un relevé bancaire… et la comptabilité se <strong>monte toute seule</strong>, puis se <strong>pilote</strong> par la conversation.</p>
+
+        <h2 style="margin-top:26px">Deux portes d'entrée, une seule intelligence</h2>
+        <p class="section-intro">Que vous soyez à votre bureau ou sur le terrain, le même moteur traite votre document. Vous choisissez simplement le canal.</p>
+        <div class="split">
+          <div class="sh a">
+            <div class="tl">▤ Voie 1 — l'application web</div>
+            <h3>Glisser-déposer dans Lexora</h3>
+            <p style="font-size:13.5px;color:#46506a;margin-top:6px">Vous déposez une facture, un reçu ou un relevé (PDF, JPEG, PNG, XLSX — 20 MB max) dans <i>Documents &amp; OCR</i>. Le système analyse et range automatiquement dans le bon dossier, par société et par nature.</p>
+          </div>
+          <div class="sh b">
+            <div class="tl">✈ Voie 2 — Telegram, en mobilité</div>
+            <h3>Une photo au bot Lexora</h3>
+            <p style="font-size:13.5px;color:#46506a;margin-top:6px">Depuis votre téléphone, vous prenez en photo le ticket ou le relevé et l'envoyez au bot. L'OCR Claude l'extrait et l'<b>injecte directement</b> dans la comptabilité de la société active. Idéal pour les notes de frais.</p>
+          </div>
+        </div>
+
+        <h2 style="margin-top:30px">Ce qui se passe ensuite — la « magie », étape par étape</h2>
+        <div class="bigflow">
+          <div class="bf"><div class="ico">📸</div><h4>1 · Capture</h4><p>Photo / PDF / scan via app ou Telegram</p></div>
+          <div class="bf hl"><div class="ico">✦</div><h4>2 · OCR Claude</h4><p>Lecture vision : montants, dates, tiers, TVA, devise</p></div>
+          <div class="bf"><div class="ico">▤</div><h4>3 · Imputation PCM</h4><p>Compte mauricien + tiers + TVA/TDS détectés</p></div>
+          <div class="bf"><div class="ico">⇄</div><h4>4 · Écriture &amp; lettrage</h4><p>Écriture équilibrée, rapprochée à la banque</p></div>
+          <div class="bf hl"><div class="ico">▣</div><h4>5 · Conformité</h4><p>Impact TVA/MRA, GBC, IFRS recalculé</p></div>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="num"></div><div class="sc"><h3>Extraction par vision (OCR Claude)</h3><p>L'agent lit le document comme un humain : il identifie le fournisseur/client, le numéro, la date, le montant HT/TTC, la devise et la TVA. Un agent de contrôle (<i>Lex OCR</i>) compare ensuite l'extraction à ce qui a été réellement enregistré et signale toute incohérence ou doublon.</p></div></div>
+          <div class="step"><div class="num"></div><div class="sc"><h3>Imputation automatique dans le Plan Comptable Mauricien</h3><p>Une couche déterministe choisit le bon compte (401/411 tiers, 627 frais, 512 banque…), détecte la <b>retenue TDS</b> applicable et calcule le net à payer. Pour une société GBC, l'auto-tagging applique IAS 21 (devise), le PER 80 % et repère les <i>related parties</i>.</p></div></div>
+          <div class="step"><div class="num"></div><div class="sc"><h3>L'écriture se monte et se rapproche seule</h3><p>L'écriture comptable équilibrée est générée, puis l'agent <b>Lex Banque</b> la rapproche avec la transaction bancaire correspondante (8 stratégies de lettrage en cascade). Vous ne validez que ce qui mérite un œil humain.</p></div></div>
+          <div class="step"><div class="num"></div><div class="sc"><h3>La conformité se met à jour en temps réel</h3><p>TVA, échéances MRA, ECL IFRS 9, exposition GBC, bilan : tout se recalcule automatiquement. Les tableaux de bord et alertes reflètent instantanément le nouveau document.</p></div></div>
+        </div>
+
+        <h2 style="margin-top:24px">Puis : « ça se pilote »</h2>
+        <p class="section-intro">Une fois la compta montée, vous ne cliquez plus dans des menus — vous <strong>parlez</strong> à votre entreprise. En langage naturel, via trois canaux interchangeables, avec une mémoire partagée.</p>
+        <div class="grid g3">
+          <div class="card feat"><div class="fic" style="background:var(--purple-soft)">✦</div><h3>Dans l'app</h3><p>« Affecte l'avance de 50 000 à la facture FA-2026-012 » — l'Expert Lexora exécute après validation.</p></div>
+          <div class="card feat"><div class="fic" style="background:#e8f6f5">✈</div><h3>Sur Telegram</h3><p>« Où en est ma trésorerie ? », « Sors le bordereau PAYE » — 162 outils au bout des doigts.</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--blue-soft)">⌘</div><h3>Depuis Claude Desktop</h3><p>Via le connecteur MCP, Claude pilote Lexora directement sur votre ordinateur.</p></div>
+        </div>
+        <div class="note ai"><b>Le principe :</b> l'humain garde la main. L'IA propose, chiffre, cite la loi et prépare — mais <b>chaque action est validée</b> avant d'être définitive. La magie, ce n'est pas l'automatisation aveugle : c'est l'effort qui disparaît, pas le contrôle.</div>
+      </div>
+    </section>
+
+    <!-- ============ COMPTA ============ -->
+    <section class="panel" id="panel-compta">
+      <div class="wrap">
+        <span class="eyebrow">▤ Comptabilité courante</span>
+        <h1>Facturation, écritures et grand livre</h1>
+        <p class="section-intro">Le socle comptable couvre <strong>19 pages</strong> : factures clients &amp; fournisseurs, banque, rapprochement, écritures, récurrences, TVA, grand livre et plan comptable. Tout est exprimé dans le <strong>Plan Comptable Mauricien</strong> et converti en MUR selon IAS 21.</p>
+
+        <h2>Mes factures — vente &amp; achat unifiés</h2>
+        <p class="section-intro">Une vue unique des 156 factures, avec rapprochement bancaire, conversion multidevise (EUR→MUR), suivi des impayés et fiscalisation MRA en un clic.</p>
+        <div class="mock">
+          <div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">lexora.finance/client/factures</span></div>
+          <div class="mock-body">
+            <div class="mock-side">
+              <div class="ml"><span class="x">▦</span> Tableau de bord</div>
+              <div class="ml on"><span class="x">▥</span> Mes Factures</div>
+              <div class="ml"><span class="x">✦</span> Lex Factures</div>
+              <div class="ml"><span class="x">＋</span> Nouvelle Facture</div>
+              <div class="ml"><span class="x">▦</span> Banque</div>
+              <div class="ml"><span class="x">⇄</span> Rapprochement</div>
+            </div>
+            <div class="mock-main">
+              <div class="mh"><div><div class="t">Mes factures</div><div class="s">Vente (clients) + achat (fournisseurs)</div></div>
+                <div class="btns"><span class="b green">＋ Nouvelle facture</span><span class="b purple">✦ Lex Banque</span></div></div>
+              <div class="kpis k5">
+                <div class="kpi"><div class="kl">Total</div><div class="kv">156</div></div>
+                <div class="kpi"><div class="kl">Total filtré</div><div class="kv sm">13,1 M</div><div class="ks">MUR</div></div>
+                <div class="kpi act"><div class="kl">Impayées</div><div class="kv sm" style="color:var(--amber)">2,57 M</div><div class="ks">115 factures</div></div>
+                <div class="kpi gr"><div class="kl">Payées</div><div class="kv sm" style="color:var(--green)">10,52 M</div><div class="ks">41 factures</div></div>
+                <div class="kpi"><div class="kl">Rapprochées</div><div class="kv sm">44 / 156</div></div>
+              </div>
+              <div class="mtabs"><span class="mtab on">Toutes (156)</span><span class="mtab">Clients (14)</span><span class="mtab">Fournisseurs (142)</span><span class="mtab">Brouillons (0)</span></div>
+              <table class="mt">
+                <tr><td>SKYCALL <span class="tag b">Client</span> <span class="tag r">Échue 27j</span></td><td>06/05/2026</td><td class="r mono">+15 404,55 EUR</td><td class="r mono">≈ 847 335 MUR</td></tr>
+                <tr><td>FINV01721924 <span class="tag a">Fournisseur</span> <span class="tag r">Échue 4j</span></td><td>—</td><td class="r mono">−7 410,00 MUR</td><td class="r"><span class="tag p">Fiscaliser MRA</span></td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="note"><b>Lecture guidée intégrée :</b> chaque écran explique sa logique (badges <i>Client/Fournisseur</i>, statuts <i>En attente / Partiel / En retard / Payée</i>, état de rapprochement) et recalcule les KPIs selon les filtres appliqués.</div>
+
+        <div class="grid g2" style="margin-top:26px">
+          <div>
+            <h2>Grand livre</h2>
+            <p class="section-intro">État comptable structuré par classe PCM, parfaitement équilibré, avec audit et lettrage assistés par IA (« Lex Livre »).</p>
+            <div class="mock"><div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/client/grand-livre</span></div>
+              <div class="mock-main" style="padding:16px">
+                <div class="btns" style="margin-bottom:12px"><span class="b">Export Excel</span><span class="b">PDF</span><span class="b purple">✦ Lancer Lex Livre</span><span class="b purple">Audit + Explication IA</span></div>
+                <div class="kpis k3"><div class="kpi"><div class="kl">Total débit</div><div class="kv sm">59 897 954</div></div><div class="kpi"><div class="kl">Total crédit</div><div class="kv sm">59 897 954</div></div><div class="kpi gr"><div class="kl">Balance (D−C)</div><div class="kv sm" style="color:var(--green)">0,00 ✓</div></div></div>
+                <table class="mt">
+                  <tr><td>Classe 1 — Capitaux</td><td class="r mono">−8 558,49</td></tr>
+                  <tr><td>Classe 4 — Tiers (16 cptes)</td><td class="r mono">−1 448 640,91</td></tr>
+                  <tr><td>Classe 5 — Financiers</td><td class="r mono">24 780,88</td></tr>
+                  <tr><td>Résultat (Produits − Charges)</td><td class="r mono" style="color:var(--green)">1 877 972,32</td></tr>
+                </table>
+              </div></div>
+          </div>
+          <div>
+            <h2>Plan comptable &amp; TVA</h2>
+            <p class="section-intro">Référentiel arborescent des 218 comptes officiels (7 classes), et déclaration de TVA au format MRA, box par box, avec reverse charge.</p>
+            <div class="mock"><div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/client/tva</span></div>
+              <div class="mock-main" style="padding:16px">
+                <div class="s muted" style="font-size:11px;margin-bottom:8px">Déclaration TVA — Format MRA · Prochaine échéance 20 juillet 2026</div>
+                <table class="mt">
+                  <tr><th>Box</th><th>Description</th><th class="r">MUR</th></tr>
+                  <tr><td class="mono">2</td><td>TVA sur ventes (Output Tax)</td><td class="r mono">0,00</td></tr>
+                  <tr><td class="mono">4</td><td>TVA sur achats (Input Tax)</td><td class="r mono">0,00</td></tr>
+                  <tr><td class="mono">R5</td><td>Reverse Charge — services importés</td><td class="r mono">0,00</td></tr>
+                  <tr><td class="mono">7</td><td><b>TVA nette (Box 2 − Box 6)</b></td><td class="r mono">0,00</td></tr>
+                </table>
+              </div></div>
+          </div>
+        </div>
+        <p class="pill-row" style="margin-top:24px">
+          <span class="pill"><span class="em">+</span> Nouvelle facture IA</span>
+          <span class="pill"><span class="em">+</span> Récurrences</span>
+          <span class="pill"><span class="em">+</span> Reclassement</span>
+          <span class="pill"><span class="em">+</span> Revenus/Dépenses</span>
+          <span class="pill"><span class="em">+</span> Catalogue services</span>
+          <span class="pill"><span class="em">+</span> Relances</span>
+          <span class="pill"><span class="em">+</span> Virements</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ BANQUE ============ -->
+    <section class="panel" id="panel-banque">
+      <div class="wrap">
+        <span class="eyebrow">▦ Banque &amp; Rapprochement intelligent</span>
+        <h1>Lex Banque — l'agent qui rapproche tout seul</h1>
+        <p class="section-intro">C'est le cœur différenciant de Lexora. Les transactions de vos relevés sont rapprochées avec vos factures <strong>ou</strong> classées dans le bon compte PCM, par un agent IA appuyé sur un moteur de <strong>8 stratégies de lettrage en cascade</strong> et des règles déterministes <strong>R01–R06</strong>.</p>
+
+        <h2>Quatre façons d'alimenter la banque</h2>
+        <div class="grid g4">
+          <div class="card feat"><div class="fic" style="background:var(--blue-soft)">⤴</div><h3>Upload web</h3><p>CSV, MT940, PDF/image — l'OCR Claude extrait les transactions. MCB, SBM, MauBank reconnus.</p></div>
+          <div class="card feat"><div class="fic" style="background:#e8f6f5">✈</div><h3>Telegram OCR</h3><p>Une photo du relevé envoyée au bot → injection directe. Idéal en mobilité.</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--purple-soft)">◐</div><h3>Scraping nocturne</h3><p>Connexion auto à 02:00 UTC, soldes + transactions chiffrés <span class="mono">AES-256-GCM</span>.</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--amber-soft)">✉</div><h3>Forward email</h3><p>Les relevés envoyés par la banque sont parsés automatiquement. <i>(Roadmap)</i></p></div>
+        </div>
+
+        <h2 style="margin-top:30px">L'écran de rapprochement</h2>
+        <div class="mock">
+          <div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">lexora.finance/client/rapprochement</span></div>
+          <div class="mock-body">
+            <div class="mock-side">
+              <div class="ml"><span class="x">▦</span> Banque</div>
+              <div class="ml on"><span class="x">⇄</span> Rapprochement</div>
+              <div class="ml"><span class="x">▦</span> Mensuel</div>
+              <div class="ml"><span class="x">▭</span> Grand Livre</div>
+            </div>
+            <div class="mock-main">
+              <div class="mh"><div><div class="t">Lex Banque <span class="tag p">AGENT IA</span></div><div class="s">Matching automatique des factures + classifications PCM</div></div>
+                <div class="btns"><span class="b purple">✦ Lancer Lex Banque</span><span class="b">+ Approfondir avec IA</span></div></div>
+              <div class="kpis k5">
+                <div class="kpi"><div class="kl">Total tx</div><div class="kv">281</div></div>
+                <div class="kpi act"><div class="kl">À valider</div><div class="kv" style="color:var(--amber)">3</div></div>
+                <div class="kpi gr"><div class="kl">Rapprochées</div><div class="kv" style="color:var(--green)">250</div></div>
+                <div class="kpi rd"><div class="kl">Orphelines</div><div class="kv" style="color:var(--red)">28</div></div>
+                <div class="kpi"><div class="kl">Taux</div><div class="kv">89%</div></div>
+              </div>
+              <div class="s muted" style="font-size:11px;margin:4px 0 6px;font-weight:700;text-transform:uppercase">Suggestions à valider</div>
+              <table class="mt">
+                <tr><td><b>Paiements fournisseurs</b><br><span class="muted">IB Transfer → ServiQual Ltd</span></td>
+                  <td><span class="tag p">88%</span> <span class="tag gr2">supplier_multi_subset_priority</span> <span class="tag b">2× factures</span></td>
+                  <td class="r mono">−1 239,87 EUR</td><td class="r"><span class="tag g">Valider</span></td></tr>
+                <tr><td><b>Salaires</b><br><span class="muted">Bulk Payment → Compte PCM 4210</span></td>
+                  <td><span class="tag p">88%</span> <span class="tag gr2">classification_agent</span></td>
+                  <td class="r mono">−55 692,00 MUR</td><td class="r"><span class="tag g">Valider</span></td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="archcol" style="margin-top:24px">
+          <div class="card">
+            <h3>Les 8 stratégies de lettrage (en cascade)</h3>
+            <ul class="exp">
+              <li><b>N° de facture détecté</b> dans le libellé → priorité absolue</li>
+              <li><b>Multi-subset</b> : N factures → 1 transaction (tolérance 2 %)</li>
+              <li><b>Acomptes successifs</b> : N paiements → 1 facture</li>
+              <li><b>Matching flou tiers</b> (Jaccard ≥ 0,35, alias, sous-chaîne)</li>
+              <li>Décalage de date accepté : <b>−60 j à +180 j</b></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Classifications déterministes R01–R06</h3>
+            <ul class="exp">
+              <li>Virements internes → compte <b>580</b></li>
+              <li>Frais bancaires → <b>627</b> <span class="muted">(non lettrables, R7)</span></li>
+              <li>Charges sociales MRA → <b>444</b></li>
+              <li>Salaires bulk/individuels → <b>421 / 4210</b></li>
+              <li>Remboursement compte courant associé → <b>455</b></li>
+            </ul>
+          </div>
+        </div>
+        <div class="note ai"><b>L'IA n'est jamais aveugle :</b> chaque suggestion affiche un score de confiance et la stratégie employée, puis passe par une validation humaine avant le lettrage définitif.</div>
+      </div>
+    </section>
+
+    <!-- ============ MRA ============ -->
+    <section class="panel" id="panel-mra">
+      <div class="wrap">
+        <span class="eyebrow">▣ Conformité MRA · Fiscalité Maurice</span>
+        <h1>La fiscalité mauricienne, pilotée et pré-remplie</h1>
+        <p class="section-intro">11 pages couvrent l'ensemble des obligations envers la <strong>Mauritius Revenue Authority</strong> : un hub-calendrier centralise TVA, TDS, PAYE/CSG/NSF, IT Form 3, CIT, ROC, SFT et Annual Return, avec montants dus, échéances et rappels automatiques.</p>
+
+        <div class="grid g2">
+          <div>
+            <h2>MRA Hub — Tax Calendar</h2>
+            <div class="mock"><div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/client/mra-hub</span></div>
+              <div class="mock-main" style="padding:16px">
+                <div class="kpis k5">
+                  <div class="kpi rd"><div class="kl">En retard</div><div class="kv" style="color:var(--red)">0</div></div>
+                  <div class="kpi am"><div class="kl">Urgent &lt;7j</div><div class="kv">0</div></div>
+                  <div class="kpi"><div class="kl">&lt;30j</div><div class="kv">0</div></div>
+                  <div class="kpi"><div class="kl">Plus tard</div><div class="kv">1</div></div>
+                  <div class="kpi gr"><div class="kl">Réglés</div><div class="kv" style="color:var(--green)">0</div></div>
+                </div>
+                <div class="pill-row">
+                  <span class="pill">VAT 3/4 + Reverse Charge</span><span class="pill">TDS · §111A</span>
+                  <span class="pill">PAYE + CSG/NSF</span><span class="pill">IT Form 3</span>
+                  <span class="pill">CIT</span><span class="pill">ROC Annual</span>
+                  <span class="pill">SFT &gt; 50k</span><span class="pill">Annual Return</span>
+                </div>
+              </div></div>
+          </div>
+          <div>
+            <h2>Conformité TDS &amp; déclarations</h2>
+            <div class="mock"><div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/client/mra-tds</span></div>
+              <div class="mock-main" style="padding:16px">
+                <div class="btns" style="margin-bottom:10px"><span class="b purple">🔍 Détecter TDS</span></div>
+                <div class="kpis k3"><div class="kpi"><div class="kl">À traiter</div><div class="kv">18</div></div><div class="kpi rd"><div class="kl">En retard</div><div class="kv" style="color:var(--red)">13</div></div><div class="kpi am"><div class="kl">Montant dû</div><div class="kv sm">118 882</div><div class="ks">MUR à reverser</div></div></div>
+                <table class="mt">
+                  <tr><th>Obligation</th><th>Période</th><th class="r">Dû</th></tr>
+                  <tr><td>PAYE <span class="tag r">retard</span></td><td>2026-04</td><td class="r mono">924</td></tr>
+                  <tr><td>CSG <span class="tag r">retard</span></td><td>2026-04</td><td class="r mono">14 622</td></tr>
+                  <tr><td>TDS retenue source</td><td>2025-12</td><td class="r mono">2 500</td></tr>
+                </table>
+              </div></div>
+          </div>
+        </div>
+
+        <div class="grid g2" style="margin-top:24px">
+          <div class="card">
+            <h3>Détection TDS par IA</h3>
+            <p class="muted" style="font-size:13.5px;margin:6px 0 10px">Sur chaque facture fournisseur, l'IA détecte la retenue à la source applicable et calcule le net à payer.</p>
+            <table class="mt">
+              <tr><th>Nature</th><th class="r">Taux TDS</th></tr>
+              <tr><td>Loyer / rent / lease</td><td class="r mono">5 %</td></tr>
+              <tr><td>Honoraires</td><td class="r mono">3 %</td></tr>
+              <tr><td>Travaux</td><td class="r mono">0,75 %</td></tr>
+              <tr><td>Royalties · Director fees</td><td class="r mono">15 %</td></tr>
+              <tr><td>Artistes</td><td class="r mono">10 %</td></tr>
+            </table>
+            <p class="muted" style="font-size:12px;margin-top:8px">Seuil 500 MUR · base HT prioritaire · sortie : <span class="mono">tds_amount_mur</span> + net fournisseur.</p>
+          </div>
+          <div class="card">
+            <h3>e-Invoicing MRA (EBS) &amp; taux de change</h3>
+            <p class="muted" style="font-size:13.5px;margin:6px 0 10px">Supervision de la fiscalisation des factures auprès de l'EBS, et taux MUR/devise synchronisés depuis la Bank of Mauritius (IAS 21).</p>
+            <div class="kpis k4"><div class="kpi"><div class="kl">Éligibles</div><div class="kv">14</div></div><div class="kpi"><div class="kl">Fiscalisées</div><div class="kv">0</div></div><div class="kpi am"><div class="kl">En attente</div><div class="kv">14</div></div><div class="kpi gr"><div class="kl">Erreurs</div><div class="kv" style="color:var(--green)">0</div></div></div>
+            <table class="mt" style="margin-top:8px">
+              <tr><td>🇺🇸 USD</td><td class="r mono">47,3485</td><td>🇪🇺 EUR</td><td class="r mono">55,1572</td></tr>
+              <tr><td>🇬🇧 GBP</td><td class="r mono">63,6132</td><td>🇨🇭 CHF</td><td class="r mono">60,4961</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ IFRS ============ -->
+    <section class="panel" id="panel-ifrs">
+      <div class="wrap">
+        <span class="eyebrow">◫ IFRS &amp; Reporting avancé</span>
+        <h1>Des états financiers aux normes internationales</h1>
+        <p class="section-intro">Lexora produit des états <strong>IFRS for SMEs</strong> conformes au Companies Act 2001, et embarque des modules normalement réservés aux grands cabinets : <strong>provision ECL (IFRS 9)</strong>, <strong>leases (IFRS 16)</strong> et conversion de devise fonctionnelle (IAS 21).</p>
+
+        <h2>Bilan &amp; compte de résultat</h2>
+        <div class="mock">
+          <div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">lexora.finance/client/bilan</span></div>
+          <div class="mock-main" style="padding:18px">
+            <div class="mh"><div><div class="t" style="text-align:center;width:100%">DIGITAL DATA SOLUTIONS LTD</div><div class="s" style="text-align:center">Prepared in accordance with IFRS for SMEs — Companies Act 2001 Mauritius</div></div></div>
+            <div class="btns" style="margin-bottom:12px"><span class="b">Télécharger PDF</span><span class="b">P&amp;L Excel</span><span class="b gold">P&amp;L PDF IFRS</span></div>
+            <div class="mtabs"><span class="mtab on">Balance Sheet</span><span class="mtab">Profit &amp; Loss</span></div>
+            <table class="mt">
+              <tr><th>Poste</th><th class="r">2025-2026 (MUR)</th><th class="r">2024-2025</th></tr>
+              <tr><td style="font-weight:700">NON-CURRENT ASSETS</td><td class="r mono">0,00</td><td class="r">—</td></tr>
+              <tr><td>&nbsp;&nbsp;Trade Receivables</td><td class="r mono">908 813,98</td><td class="r">—</td></tr>
+              <tr><td>&nbsp;&nbsp;Cash &amp; Bank</td><td class="r mono">24 780,88</td><td class="r">—</td></tr>
+              <tr><td style="font-weight:700">TOTAL ASSETS</td><td class="r mono" style="font-weight:700">933 594,86</td><td class="r">—</td></tr>
+              <tr><td>&nbsp;&nbsp;Share Capital</td><td class="r mono">8 558,49</td><td class="r">—</td></tr>
+              <tr><td>&nbsp;&nbsp;Retained Earnings</td><td class="r mono">1 982 636,60</td><td class="r">—</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <h2 style="margin-top:28px">IFRS 9 — Expected Credit Loss</h2>
+        <p class="section-intro">Le module le plus pointu : provision pour pertes de crédit attendues par contrepartie, avec <strong>stages 1/2/3</strong>, SICR automatique, PD/LGD paramétrables et ajustement <strong>forward-looking</strong> (macro).</p>
+        <div class="mock">
+          <div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/client/ifrs9-ecl</span></div>
+          <div class="mock-main" style="padding:16px">
+            <div class="kpis k4">
+              <div class="kpi"><div class="kl">Exposure total</div><div class="kv sm">908 814</div><div class="ks">MUR</div></div>
+              <div class="kpi"><div class="kl">ECL base</div><div class="kv sm">8 179,32</div><div class="ks">EAD × PD × LGD</div></div>
+              <div class="kpi act"><div class="kl">ECL forward-looking</div><div class="kv sm" style="color:var(--purple)">8 506,50</div><div class="ks">impact macro +327</div></div>
+              <div class="kpi"><div class="kl">Taux couverture</div><div class="kv sm">0,94 %</div></div>
+            </div>
+            <div class="kpis k3" style="margin-bottom:10px">
+              <div class="kpi gr"><div class="kl">Stage 1 — Performing</div><div class="kv sm">908 814</div><div class="ks">2 contreparties · 4 factures</div></div>
+              <div class="kpi am"><div class="kl">Stage 2 — SICR</div><div class="kv sm">0,00</div></div>
+              <div class="kpi rd"><div class="kl">Stage 3 — Default</div><div class="kv sm">0,00</div></div>
+            </div>
+            <table class="mt">
+              <tr><th>Contrepartie</th><th>Stage</th><th class="r">PD</th><th class="r">LGD</th><th class="r">Macro</th><th class="r">ECL ajustée</th></tr>
+              <tr><td>Mediasys Ltd</td><td><span class="tag g">Stage 1</span></td><td class="r mono">2,00%</td><td class="r mono">45%</td><td class="r mono">1,04</td><td class="r mono">575,44</td></tr>
+              <tr><td>SKYCALL</td><td><span class="tag g">Stage 1</span></td><td class="r mono">2,00%</td><td class="r mono">45%</td><td class="r mono">1,04</td><td class="r mono">7 931,06</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="note gr"><b>Méthodologie (citée dans l'app) :</b> ECL = EAD × PD × LGD × Macro_adj. PD 12 mois en Stage 1, PD lifetime en Stage 2/3. SICR auto : retard &gt; 30j → Stage 2, &gt; 90j → Stage 3. Conforme IFRS 9 §5.5 et IFRS 7 §35M, avec audit-trail des overrides.</div>
+
+        <div class="pill-row" style="margin-top:18px">
+          <span class="pill"><span class="em">◫</span> IFRS 16 Leases — ROU compte 2151 / dette 1751-1752</span>
+          <span class="pill"><span class="em">◫</span> Tableau de bord financier (Recharts)</span>
+          <span class="pill"><span class="em">◫</span> Plan comptable matérialisé (PCM)</span>
+          <span class="pill"><span class="em">◫</span> Salaires → impact compta</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GBC ============ -->
+    <section class="panel" id="panel-gbc">
+      <div class="wrap">
+        <span class="eyebrow">◍ GBC · Compliance offshore</span>
+        <h1>La conformité des sociétés globales mauriciennes</h1>
+        <p class="section-intro">Maurice est une place offshore majeure. Lexora dédie <strong>8 modules</strong> aux Global Business Companies : Partial Exemption 80 %, substance économique (CIGA), registre UBO, transfer pricing, CRS/FATCA, consolidation IFRS 10 et même <strong>BEPS Pillar Two</strong>. Ces modules s'activent automatiquement quand la devise fonctionnelle ≠ MUR.</p>
+
+        <div class="grid g2">
+          <div>
+            <h2>Partial Exemption 80 % + FTC</h2>
+            <div class="mock"><div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/client/gbc-per</span></div>
+              <div class="mock-main" style="padding:16px">
+                <div class="s muted" style="font-size:11px;margin-bottom:8px">Income Tax Act 1995 §50C + §77 — régime d'exemption partielle</div>
+                <div class="kpis k4">
+                  <div class="kpi"><div class="kl">Revenu total</div><div class="kv sm">10,9 M</div></div>
+                  <div class="kpi gr"><div class="kl">PER-éligible (3%)</div><div class="kv sm">0,00</div></div>
+                  <div class="kpi am"><div class="kl">Non éligible (15%)</div><div class="kv sm">10,9 M</div></div>
+                  <div class="kpi act"><div class="kl">IS net</div><div class="kv sm" style="color:var(--blue)">293 179</div></div>
+                </div>
+                <table class="mt">
+                  <tr><th>Catégorie ITA §50C</th><th class="r">Exempt.</th></tr>
+                  <tr><td>Dividendes étrangers</td><td class="r mono">80%</td></tr>
+                  <tr><td>Intérêts source étrangère</td><td class="r mono">80%</td></tr>
+                  <tr><td>Royalties IP holding</td><td class="r mono">80%</td></tr>
+                  <tr><td>Navires / aéronefs</td><td class="r mono">80%</td></tr>
+                </table>
+                <p class="muted" style="font-size:11.5px;margin-top:8px">PER 80 % : revenu éligible imposé à 15 % × 20 % = <b>3 %</b>. Substance ITA §73A obligatoire.</p>
+              </div></div>
+          </div>
+          <div>
+            <h2>BEPS Pillar Two — GloBE</h2>
+            <div class="mock"><div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/client/gbc-pillar-two</span></div>
+              <div class="mock-main" style="padding:16px">
+                <div class="s muted" style="font-size:11px;margin-bottom:8px">OCDE Pillar Two — taxe minimale 15 % pour MNE &gt; 750 M€</div>
+                <div class="kpis k4">
+                  <div class="kpi"><div class="kl">Juridictions</div><div class="kv">0</div></div>
+                  <div class="kpi rd"><div class="kl">Low-taxed &lt;15%</div><div class="kv" style="color:var(--red)">0</div></div>
+                  <div class="kpi"><div class="kl">Top-up Tax</div><div class="kv sm">0,00</div></div>
+                  <div class="kpi"><div class="kl">Statut GIR</div><div class="kv sm">aucun</div></div>
+                </div>
+                <div class="btns"><span class="b">GIR Submission</span><span class="b gold">+ Juridiction GloBE</span></div>
+                <p class="muted" style="font-size:12px;margin-top:10px">Calcule l'ETR par juridiction, le top-up tax et la DMTT mauricienne, et prépare le <span class="mono">GIR</span> (GloBE Information Return).</p>
+              </div></div>
+          </div>
+        </div>
+
+        <h2 style="margin-top:26px">Registre UBO &amp; autres modules</h2>
+        <div class="grid g2">
+          <div class="mock"><div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/client/gbc-ubo</span></div>
+            <div class="mock-main" style="padding:16px">
+              <div class="mh"><div><div class="t">Beneficial Owners (UBO)</div><div class="s">FSC AML Act + FATF — registre ≥ 10 %</div></div><div class="btns"><span class="b">Exporter PDF</span><span class="b gold">+ Déclarer UBO</span></div></div>
+              <div class="kpis k3"><div class="kpi"><div class="kl">UBO actifs</div><div class="kv">0</div></div><div class="kpi"><div class="kl">% Détention</div><div class="kv sm">0,00%</div></div><div class="kpi"><div class="kl">Audit trail</div><div class="kv">0</div></div></div>
+              <p class="muted" style="font-size:12px;margin-top:8px">Détection des UBO manquants ≥ 10 %, sanctions screening, audit-trail des changements.</p>
+            </div></div>
+          <div class="card">
+            <h3>Le périmètre GBC complet</h3>
+            <ul class="exp">
+              <li><b>GBC Dashboard</b> — vue compliance globale par phase</li>
+              <li><b>Substance (CIGA)</b> — board meetings, AGM, locaux</li>
+              <li><b>Transfer Pricing</b> — Master File + arm's length</li>
+              <li><b>CRS / FATCA</b> — échange automatique d'informations</li>
+              <li><b>Consolidation</b> — IFRS 10 multi-entités</li>
+            </ul>
+          </div>
+        </div>
+        <div class="note ai"><b>Auto-tagging GBC à la création de facture :</b> traduction IAS 21 en devise fonctionnelle, auto-classification PER 80 %, et détection des <i>related parties</i> → création d'une transaction de transfer pricing si &gt; 1 M MUR.</div>
+      </div>
+    </section>
+
+    <!-- ============ RH ============ -->
+    <section class="panel" id="panel-rh">
+      <div class="wrap">
+        <span class="eyebrow">☷ Module RH &amp; Paie</span>
+        <h1>Une suite RH complète, conforme au WRA 2019</h1>
+        <p class="section-intro">Un module à part entière (<strong>45 pages</strong>, son propre espace) couvre tout le cycle de vie du salarié : employés &amp; contrats, paie, congés glissants, planning, pointage, trajets, départs &amp; indemnités, 13ᵉ mois, provisions IAS 19 et exports MRA. Côté salarié, un self-service (fiche, congés, frais, bulletins).</p>
+
+        <h2>Tableau de bord RH &amp; alertes intelligentes</h2>
+        <div class="mock">
+          <div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">lexora.finance/rh</span></div>
+          <div class="mock-body">
+            <div class="mock-side" style="background:linear-gradient(180deg,#0e1633,#080d20)">
+              <div class="ml on"><span class="x">▦</span> Tableau de bord</div>
+              <div class="ml"><span class="x">☷</span> Employés</div>
+              <div class="ml"><span class="x">▭</span> Paie &amp; Bulletins</div>
+              <div class="ml"><span class="x">⤓</span> Congés</div>
+              <div class="ml"><span class="x">◷</span> Pointage</div>
+              <div class="ml"><span class="x">✦</span> CLARA</div>
+            </div>
+            <div class="mock-main">
+              <div class="mh"><div><div class="t">Tableau de bord RH</div><div class="s">Vue consolidée — conforme WRA 2019</div></div></div>
+              <div class="note" style="margin:0 0 12px;border-left-color:var(--blue);font-size:12.5px"><b>Deadline MRA :</b> déclarations CSG/NSF/PAYE dues avant le 20 juin 2026 · 19 jours restants.</div>
+              <div class="s muted" style="font-size:11px;margin-bottom:6px;font-weight:700;text-transform:uppercase">⚑ Alertes intelligentes</div>
+              <table class="mt">
+                <tr><td><span class="tag a">Échéance</span> CSG/NSF à soumettre</td><td class="r">dans 44 j</td></tr>
+                <tr><td><span class="tag r">Contrats</span> 2 CDD expirent — Dupont M., Martin L.</td><td class="r">&lt; 30 j</td></tr>
+                <tr><td><span class="tag a">Pointage</span> Employés sans pointage aujourd'hui</td><td class="r">3 anomalies</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid g2" style="margin-top:24px">
+          <div>
+            <h2>Paie — Calcul → Validation → Verrouillage</h2>
+            <div class="mock"><div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/rh/paie</span></div>
+              <div class="mock-main" style="padding:16px">
+                <div class="flow" style="margin-bottom:14px"><span class="node">① Calcul</span><span class="arr">→</span><span class="node">② Validation</span><span class="arr">→</span><span class="node">③ Verrouillage</span></div>
+                <div class="s muted" style="font-size:11px;margin-bottom:6px;font-weight:700;text-transform:uppercase">Après verrouillage — exports</div>
+                <div class="kpis k3"><div class="kpi"><div class="kl">Virements</div><div class="kv sm">MCB BP-V1</div></div><div class="kpi"><div class="kl">MRA</div><div class="kv sm">CSG/NSF/PAYE</div></div><div class="kpi"><div class="kl">Compta</div><div class="kv sm">Écritures auto</div></div></div>
+                <p class="muted" style="font-size:12px;margin-top:8px">Génération des écritures de paie par procédure PostgreSQL <span class="mono">generer_ecritures_paie</span>, avec filet d'équilibrage sur le compte 6411.</p>
+              </div></div>
+          </div>
+          <div>
+            <h2>Congés glissants (WRA 2019)</h2>
+            <div class="mock"><div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/rh/conges</span></div>
+              <div class="mock-main" style="padding:16px">
+                <div class="kpis k3"><div class="kpi"><div class="kl">AL pris</div><div class="kv sm">93,5 j</div></div><div class="kpi"><div class="kl">AL restants</div><div class="kv sm">458 j</div></div><div class="kpi am"><div class="kl">En attente</div><div class="kv">5</div></div></div>
+                <table class="mt">
+                  <tr><th>Employé</th><th>WRA</th><th class="r">AL Droit</th><th class="r">Solde</th></tr>
+                  <tr><td>Eveline CHARLES</td><td><span class="tag b">Worker</span></td><td class="r mono">26</td><td class="r mono">22</td></tr>
+                  <tr><td>Anaelle CANGY</td><td><span class="tag b">Worker</span></td><td class="r mono">28</td><td class="r mono">23</td></tr>
+                  <tr><td>Aditya GROODOYAL</td><td><span class="tag gr2">Hors WRA</span></td><td class="r mono">22</td><td class="r mono">7</td></tr>
+                </table>
+                <p class="muted" style="font-size:11.5px;margin-top:8px">AL 22 j · SL 15 j · VL 30 j/5 ans (S.47). Acquisition sur 12 mois glissants depuis la date d'arrivée.</p>
+              </div></div>
+          </div>
+        </div>
+
+        <h2 style="margin-top:30px">Planning &amp; temps de travail — conformes au WRA 2019</h2>
+        <p class="section-intro">Le planning n'est pas qu'un calendrier : il connaît la <strong>loi mauricienne</strong>. Il alerte dès qu'un collaborateur dépasse 45h/semaine, tout en respectant le plafond légal d'heures supplémentaires (55h max), et bascule automatiquement les heures en OT à payer.</p>
+        <div class="mock">
+          <div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">lexora.finance/rh/planning</span></div>
+          <div class="mock-main" style="padding:16px">
+            <div class="mh"><div><div class="t">Planning · Juin 2026</div><div class="s">Collaborateurs 16/16 · Limite hebdo 45h</div></div><div class="btns"><span class="b">Remplir</span><span class="b gold">Publier aux employés</span></div></div>
+            <div class="note" style="margin:0 0 12px;border-left-color:var(--amber);font-size:12.5px"><b>⚠ 1 avertissement (OT légal) :</b> ces heures dépassent 45h mais restent dans la limite légale (55h max, WRA 2019). À payer en heures supplémentaires.</div>
+            <div class="pill-row" style="margin:0">
+              <span class="pill">Journée · 08:00–17:00 · 8h</span>
+              <span class="pill">Vente Matin · 10:00–19:00 · 9h</span>
+              <span class="pill">Service Client · 09:30–18:00 · 8,5h</span>
+              <span class="pill">Vente Soir · 11:00–22:00 · 11h</span>
+              <span class="pill" style="background:var(--green-soft)">R · Repos</span>
+            </div>
+            <table class="mt" style="margin-top:10px">
+              <tr><th>Employé</th><th>Lun</th><th>Mar</th><th>Mer</th><th>Jeu</th><th>Ven</th><th>Sam</th><th>Dim</th></tr>
+              <tr><td>Eveline CHARLES</td><td><span class="tag b">VS</span></td><td><span class="tag b">VS</span></td><td><span class="tag a">VS</span></td><td><span class="tag a">VS</span></td><td><span class="tag gr2">R</span></td><td><span class="tag a">AL</span></td><td><span class="tag gr2">R</span></td></tr>
+              <tr><td>Wendy COMPASSY</td><td><span class="tag gr2">R</span></td><td><span class="tag a">VM</span></td><td><span class="tag a">VM</span></td><td><span class="tag a">VM</span></td><td><span class="tag a">VM</span></td><td><span class="tag gr2">R</span></td><td><span class="tag gr2">R</span></td></tr>
+            </table>
+            <p class="muted" style="font-size:11px;margin-top:6px">Légende : AL Local Leave · SL Sick Leave · MAT Maternité · PAT Paternité · R Repos · jour férié (shift conservé).</p>
+          </div>
+        </div>
+
+        <div class="grid g2" style="margin-top:24px">
+          <div>
+            <h2>Pointage — badgeuse intégrée</h2>
+            <p class="section-intro">Entrée, pauses et sortie à l'heure de Maurice (UTC+4), avec actualisation en temps réel. Le pointage alimente directement le contrôle pré-paie : pas de double saisie.</p>
+            <div class="mock"><div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/rh/pointage</span></div>
+              <div class="mock-main" style="padding:0">
+                <div style="background:#0e1633;color:#fff;text-align:center;padding:18px">
+                  <div style="font-size:30px;font-weight:800;letter-spacing:2px;color:var(--gold)">15:50:31</div>
+                  <div style="font-size:11px;color:#9fa9c6">Lundi 1 Juin 2026 · Heure Maurice (UTC+4)</div>
+                </div>
+                <div style="padding:14px"><div class="btns"><span class="b green">→ Entrée</span><span class="b gold">Début pause</span><span class="b gold">Fin pause</span><span class="b" style="background:#fde8e9">← Sortie</span></div>
+                <p class="muted" style="font-size:11px;margin-top:8px">Actualisation automatique toutes les 30 secondes.</p></div>
+              </div></div>
+          </div>
+          <div>
+            <h2>13ᵉ mois (EOY) &amp; indemnités de départ</h2>
+            <p class="section-intro">Lexora calcule le bonus de fin d'année (75 % en décembre, 25 % en janvier) et les indemnités de licenciement selon le WRA, avec leurs provisions comptables IAS 19.</p>
+            <div class="card">
+              <ul class="exp" style="margin:0">
+                <li><b>EOY 13ᵉ mois</b> — calcul automatique 75 % déc / 25 % janv, provisionné en IAS 19</li>
+                <li><b>Severance pay</b> — indemnités WRA + PRGF, exit statements</li>
+                <li><b>Provisions congés</b> — passif IAS 19 sur les soldes acquis non pris</li>
+                <li><b>Audit de décomptabilisation</b> — traçabilité des reprises de provisions</li>
+              </ul>
+              <div class="note" style="margin:12px 0 0;border-left-color:var(--red);font-size:12.5px"><b>🔒 Contrôle d'accès :</b> les pages sensibles (EOY, severance) affichent « Accès refusé — réservé aux RH et administrateurs ». Le RBAC est appliqué page par page.</div>
+            </div>
+          </div>
+        </div>
+
+        <h2 style="margin-top:24px">CLARA — l'assistante RH conversationnelle</h2>
+        <p class="section-intro">Un agent dédié au droit du travail mauricien répond en langage naturel sur les congés, la paie, les contrats et le licenciement.</p>
+        <div class="chat">
+          <div class="bub ai"><div class="av">✦ CLARA</div>Bonjour, je suis CLARA, votre assistante RH spécialisée en droit du travail mauricien (Workers' Rights Act 2019, MRA, CSG/PAYE). Comment puis-je vous aider ?</div>
+          <div class="pill-row" style="margin:6px 0 0">
+            <span class="pill">Congé annuel pour 4 ans d'ancienneté ?</span>
+            <span class="pill">Taux CSG/NSF en vigueur ?</span>
+            <span class="pill">Calcul du PAYE pour 45 000 MUR</span>
+            <span class="pill">Règles de licenciement WRA 2019</span>
+            <span class="pill">Droits maternité à Maurice</span>
+          </div>
+        </div>
+
+        <h2 style="margin-top:26px">Et aussi, côté RH &amp; salarié</h2>
+        <div class="pill-row" style="margin-top:6px">
+          <span class="pill"><span class="em">+</span> 22 employés · comptes Lexora liés</span>
+          <span class="pill"><span class="em">+</span> Contrats CDI/CDD/freelance générés par IA</span>
+          <span class="pill"><span class="em">+</span> Trajets GPS / indemnités kilométriques</span>
+          <span class="pill"><span class="em">+</span> Primes &amp; heures supplémentaires</span>
+          <span class="pill"><span class="em">+</span> Jours fériés Maurice</span>
+          <span class="pill"><span class="em">+</span> Import paie Excel</span>
+          <span class="pill"><span class="em">+</span> Exports virement SWIFT (MCB/BML/Maubank)</span>
+          <span class="pill"><span class="em">+</span> Self-service salarié (fiche, congés, frais, bulletins)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STOCKS ============ -->
+    <section class="panel" id="panel-stocks">
+      <div class="wrap">
+        <span class="eyebrow">▩ Stocks &amp; Inventaire</span>
+        <h1>Aller plus loin : la gestion des stocks <span class="roadmap-badge">En développement</span></h1>
+        <p class="lead">La comptabilité et la fiscalité couvrent aujourd'hui l'essentiel du besoin. L'étape suivante, en cours de finalisation, étend Lexora à la <strong>gestion des stocks et de l'inventaire</strong> — avec la même philosophie : le moins de saisie possible, le maximum d'intelligence.</p>
+
+        <h2 style="margin-top:26px">Deux approches complémentaires</h2>
+        <div class="split">
+          <div class="sh a">
+            <div class="tl">🔌 Approche 1 — se connecter à l'existant</div>
+            <h3>Brancher votre logiciel de stock</h3>
+            <p style="font-size:13.5px;color:#46506a;margin-top:6px">Pour les entreprises déjà équipées, Lexora se connectera à leur <b>logiciel de gestion de stock</b> existant. Les mouvements (entrées, sorties, valorisation) alimenteront automatiquement la comptabilité (classe 3 — Stocks) et les marges, sans double saisie.</p>
+            <div class="pill-row" style="margin-top:10px">
+              <span class="pill">Synchronisation des mouvements</span>
+              <span class="pill">Valorisation → écritures classe 3</span>
+              <span class="pill">Marges &amp; COGS en temps réel</span>
+            </div>
+          </div>
+          <div class="sh b">
+            <div class="tl">▩ Approche 2 — le module natif Lexora</div>
+            <h3>Un module de stock intégré</h3>
+            <p style="font-size:13.5px;color:#46506a;margin-top:6px">Pour ceux qui partent de zéro, un <b>module d'inventaire natif</b> est en cours de développement : catalogue produits, niveaux de stock, valorisation (FIFO / coût moyen), liens directs vers les factures d'achat et de vente déjà présentes dans Lexora.</p>
+            <div class="pill-row" style="margin-top:10px">
+              <span class="pill">Catalogue &amp; références</span>
+              <span class="pill">Niveaux &amp; seuils d'alerte</span>
+              <span class="pill">FIFO / coût moyen pondéré</span>
+            </div>
+          </div>
+        </div>
+
+        <h2 style="margin-top:30px">La réflexion en cours : où placer l'IA ?</h2>
+        <p class="section-intro">Le travail actuel ne porte pas que sur la technique : il porte sur <strong>l'expérience utilisateur</strong> et sur la bonne manière d'employer l'IA à ce niveau. L'enjeu est d'apporter de la valeur sans ajouter de friction.</p>
+        <div class="grid g3">
+          <div class="card feat"><div class="fic" style="background:var(--purple-soft)">📷</div><h3>Inventaire par photo</h3><p>Prendre en photo une étagère ou un bon de livraison et laisser l'IA reconnaître et compter les références — dans l'esprit « scan → magie ».</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--blue-soft)">📈</div><h3>Prévision de réappro</h3><p>Anticiper les ruptures et suggérer les commandes à partir de l'historique des ventes et de la saisonnalité.</p></div>
+          <div class="card feat"><div class="fic" style="background:#e8f6f5">🔗</div><h3>Stock ↔ compta ↔ fiscalité</h3><p>Relier automatiquement chaque mouvement à son écriture, sa TVA et son impact sur la marge et le résultat.</p></div>
+        </div>
+        <div class="note"><b>Statut :</b> l'expérience utilisateur et l'intégration de l'IA pour ce module sont <b>en cours de finalisation</b>. L'objectif : que la gestion des stocks soit aussi fluide que le reste de Lexora — pas un tableur de plus, mais un assistant qui comprend votre inventaire.</div>
+      </div>
+    </section>
+
+    <!-- ============ AGENTS ============ -->
+    <section class="panel" id="panel-agents">
+      <div class="wrap">
+        <span class="eyebrow">✦ Intelligence artificielle</span>
+        <h1>18 agents IA, ancrés dans le droit mauricien</h1>
+        <p class="section-intro">C'est la vraie rupture de Lexora : pas un simple chatbot, mais un réseau d'agents qui <strong>consultent vos données réelles</strong>, raisonnent selon la réglementation et exécutent — toujours après validation. 4 agents conversationnels principaux et 14 extracteurs/agents spécialisés.</p>
+
+        <div class="grid g4">
+          <div class="card feat"><div class="fic" style="background:var(--purple-soft)">✈</div><h3>Telegram Lexora</h3><p>Claude Opus 4.8 · <b>162 outils</b> · mémoire 20 tours / 24 h · auth HMAC.</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--purple-soft)">✦</div><h3>Expert Lexora Web</h3><p>Sonnet 4.6 · 17 outils · compta + RH + paie + MRA + droit Maurice.</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--purple-soft)">⇄</div><h3>Rapprochement</h3><p>Sonnet 4.6 · 8 outils · matching factures + classification PCM.</p></div>
+          <div class="card feat"><div class="fic" style="background:#e8f6f5">☷</div><h3>CLARA — RH</h3><p>Sonnet 4.6 · droit du travail mauricien, paie, congés, contrats.</p></div>
+        </div>
+
+        <h2 style="margin-top:30px">Démonstration en direct — l'Expert Lexora</h2>
+        <p class="section-intro">Question posée en langage naturel pendant l'exploration : « Où en est ma conformité MRA ? ». L'agent a interrogé les données, croisé les échéances et répondu avec des montants réels et des citations légales. Réponse réelle (extraits) :</p>
+        <div class="chat">
+          <div class="bub me">Où en est ma conformité MRA ? Résume mes obligations en cours.</div>
+          <div class="bub ai md">
+            <div class="av">✦ Expert Lexora</div>
+            <h4>🔴 EN RETARD</h4>
+            <table>
+              <tr><th>Type</th><th>Échéance</th><th>Montant</th><th>Retard</th></tr>
+              <tr><td>PAYE</td><td>20/05/2026</td><td>924 MUR</td><td>12 j</td></tr>
+              <tr><td>CSG</td><td>31/05/2026</td><td>14 622 MUR</td><td>1 j</td></tr>
+              <tr><td>TDS</td><td>20/11/2025</td><td>2 500 MUR</td><td>193 j</td></tr>
+            </table>
+            <p>⚠️ <b>Le TDS est en retard depuis octobre 2025</b> — 5 mois consécutifs non déclarés. Risque de pénalité MRA significative (§111A Income Tax Act + §162 ITA pour les intérêts de retard à 1 %/mois).</p>
+            <h4>📊 Synthèse globale</h4>
+            <table>
+              <tr><td>Total dû (toutes obligations)</td><td><b>111 382 MUR</b></td></tr>
+              <tr><td>Dont en retard</td><td>64 152 MUR</td></tr>
+              <tr><td>Obligations à traiter / en retard</td><td>15 / 10</td></tr>
+            </table>
+            <h4>🎯 Mes recommandations prioritaires</h4>
+            <p>1. <b>Régularisez le TDS immédiatement</b> — 5 déclarations en retard (oct. 2025 → fév. 2026) pour 12 500 MUR. 1 %/mois selon l'ITA §163.<br>
+            2. <b>PAYE + CSG + NSF + PRGF + LEVY d'avril 2026</b> à solder aujourd'hui (51 652 MUR).<br>
+            3. Préparez le PAYE de mai avant le 20 juin (480 MUR).</p>
+            <p style="color:#6d5cf5"><i>Voulez-vous que j'envoie ce récapitulatif sur Telegram, ou que je détaille le calcul des pénalités TDS ?</i></p>
+          </div>
+        </div>
+        <div class="note ai"><b>Ce qui est remarquable :</b> l'agent ne se contente pas de répondre — il <b>hiérarchise les risques</b>, <b>cite les articles de loi</b> (ITA §111A/§162/§163), <b>chiffre les pénalités</b> et propose l'action suivante (notification Telegram cross-canal).</div>
+
+        <h2 style="margin-top:30px">Les 14 agents spécialisés</h2>
+        <div class="grid g2">
+          <div class="card"><ul class="exp" style="margin:0">
+            <li><b>Expert Juridique J0</b> — Companies Act 2001, FSA 2007, FATF, BEPS</li>
+            <li><b>Expert Contrats RH</b> — génère CDI/CDD/freelance (WRA 2019)</li>
+            <li><b>OCR Notes de frais</b> — vision sur tickets (Haiku 4.5)</li>
+            <li><b>Extraction relevé bancaire</b> — PDF → transactions JSON</li>
+            <li><b>Assistant Contrats</b> — 7 types de contrats</li>
+            <li><b>Assistant Factures IA</b> — facture / devis / avoir en chat</li>
+            <li><b>CRM Enrichment</b> — enrichit les tiers via Apollo</li>
+          </ul></div>
+          <div class="card"><ul class="exp" style="margin:0">
+            <li><b>CRM NL-Query</b> — langage naturel → filtres</li>
+            <li><b>AI Rates</b> — taux CSG/NSF/PAYE annuels</li>
+            <li><b>Document Processor</b> — OCR multi-types + écritures auto</li>
+            <li><b>Facture Template Analyzer</b> — extrait un modèle existant</li>
+            <li><b>CFO Recommendations</b> — conseils stratégiques 90 j</li>
+            <li><b>Treasury Forecast</b> — prévisionnel J+30/60/90</li>
+            <li><b>Lex Livre</b> — audit grand livre + lettrage 411x/401x</li>
+          </ul></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MCP ============ -->
+    <section class="panel" id="panel-mcp">
+      <div class="wrap">
+        <span class="eyebrow">⌘ MCP · Connecteur Claude Desktop</span>
+        <h1>Lexora dans Claude, sur votre ordinateur</h1>
+        <p class="lead">Au-delà de l'app et de Telegram, Lexora s'expose comme un <strong>serveur MCP (Model Context Protocol)</strong>. Concrètement : vous connectez votre comptabilité Lexora à <strong>Claude Desktop</strong>, et vous pilotez l'ensemble depuis une conversation Claude — sur votre Mac ou PC.</p>
+
+        <div class="note ai" style="margin-top:18px"><b>Pourquoi c'est puissant :</b> Claude Desktop devient une interface universelle. Il peut lire vos sociétés, vos factures, vos échéances MRA et déclencher des actions Lexora <b>en même temps</b> qu'il manipule vos autres outils (fichiers, e-mails, autres connecteurs MCP). Lexora devient une brique de votre poste de travail augmenté.</div>
+
+        <h2 style="margin-top:26px">L'installation — « génère une clé, lance une commande, c'est fini »</h2>
+        <div class="mock">
+          <div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">lexora.finance/client/direction/mcp-setup</span></div>
+          <div class="mock-main" style="padding:18px">
+            <div class="mh"><div><div class="t">Connecter Lexora à Claude Desktop</div><div class="s">Génère ta clé personnelle, lance une commande, c'est fini.</div></div></div>
+            <div class="steps" style="margin:4px 0 0">
+              <div class="step"><div class="num"></div><div class="sc"><h3>Génère une clé API personnelle</h3><p>Chaque clé est <b>liée à toi</b>, <b>révocable</b> à tout moment et <b>hashée en base</b> — personne ne peut la voir en clair, pas même les admins Lexora. <span class="muted">Clés actives : « MCP LEXORA BIS », « MCP MA CLE LEXORA ».</span></p></div></div>
+              <div class="step"><div class="num"></div><div class="sc"><h3>Pré-requis sur ton ordinateur</h3><p>Claude Desktop installé + Node.js v18+ <span class="mono">(brew install node)</span>.</p></div></div>
+              <div class="step"><div class="num"></div><div class="sc"><h3>Une seule commande</h3><p style="margin-bottom:6px">Mac / Linux, dans le Terminal :</p><div style="background:#0e1633;color:#e7c75a;border-radius:8px;padding:9px 12px;font-family:ui-monospace,monospace;font-size:12px">curl -fsSL https://www.lexora.finance/install-mcp.sh | bash</div><p style="margin-top:6px">Windows : commande PowerShell équivalente. Le script demande l'URL Lexora et la clé.</p></div></div>
+              <div class="step"><div class="num"></div><div class="sc"><h3>Teste</h3><p>Quitte puis relance Claude Desktop, et tape : <span class="mono">« Liste mes sociétés Lexora »</span>. C'est connecté.</p></div></div>
+            </div>
+          </div>
+        </div>
+
+        <h2 style="margin-top:26px">Trois canaux, une même intelligence</h2>
+        <p class="section-intro">L'app, Telegram et le MCP ne sont pas trois produits : ce sont trois portes vers le <strong>même cerveau</strong>, avec une mémoire de conversation partagée (cross-canal).</p>
+        <div class="bigflow">
+          <div class="bf"><div class="ico">▤</div><h4>Application web</h4><p>L'espace complet, écran par écran</p></div>
+          <div class="bf"><div class="ico">✈</div><h4>Telegram</h4><p>162 outils en mobilité</p></div>
+          <div class="bf hl"><div class="ico">⌘</div><h4>MCP · Claude Desktop</h4><p>Pilotage depuis votre poste</p></div>
+          <div class="bf"><div class="ico">🧠</div><h4>Mémoire partagée</h4><p>Lien magique cross-canal 24 h</p></div>
+        </div>
+        <div class="note"><b>Sécurité :</b> clés API personnelles, révocables et hashées (jamais visibles en clair). Le périmètre d'action respecte le rôle de l'utilisateur — un comptable n'a pas les droits d'un administrateur, quel que soit le canal utilisé.</div>
+
+        <h2 style="margin-top:34px">La vraie puissance : un analyste financier de niveau supérieur aux Big 4</h2>
+        <p class="lead">C'est ici que Lexora change de catégorie. Une fois connecté en MCP, <strong>Claude voit l'intégralité de votre comptabilité en temps réel</strong> — chaque écriture, chaque échéance, chaque ratio. Il ne « consulte » pas un export figé : il interroge la donnée vivante, la croise avec sa connaissance du droit mauricien et des normes IFRS, et produit en quelques minutes des analyses qu'un cabinet du Big 4 facturerait des semaines.</p>
+
+        <div class="grid g3" style="margin-top:6px">
+          <div class="card feat"><div class="fic" style="background:var(--purple-soft)">⚡</div><h3>Instantané, pas trimestriel</h3><p>Là où un audit prend des semaines, l'analyse est produite à la demande, sur la donnée du jour.</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--blue-soft)">⚖️</div><h3>Droit + IFRS intégrés</h3><p>ITA 1995, WRA 2019, IFRS 9/16, IAS 21, BEPS — cités et appliqués dans l'analyse.</p></div>
+          <div class="card feat"><div class="fic" style="background:#e8f6f5">🎯</div><h3>Du diagnostic à l'action</h3><p>Pas seulement des constats : des recommandations chiffrées, priorisées et actionnables.</p></div>
+        </div>
+
+        <h2 style="margin-top:30px">Exemple : un rapport d'analyse financière &amp; stratégique généré par Claude + Lexora</h2>
+        <p class="section-intro">Demande type dans Claude Desktop : <i>« Produis un rapport d'analyse financière et stratégique de Digital Data Solutions pour le board, avec bilan, ratios et recommandations. »</i> Voici un aperçu du livrable produit (le PDF complet est joint à cette présentation) :</p>
+
+        <div class="doc-frame">
+          <div class="doc-toolbar"><span>📄 Analyse_Financiere_Strategique_DDS_2025-2026.pdf — page 1 / 6</span><span class="b">⤓ Télécharger</span></div>
+          <div class="doc-page rep">
+            <div class="rep-cover">
+              <div class="lg">LE<b>X</b>ORA · Intelligence financière</div>
+              <h2>Analyse financière &amp; stratégique</h2>
+              <div class="sub">Digital Data Solutions Ltd · BRN C20173522 · Exercice juil. 2025 → juin 2026<br>Préparé par Claude via le connecteur MCP Lexora · Confidentiel — usage board</div>
+            </div>
+            <h3>1 · Synthèse exécutive</h3>
+            <p>La société affiche un exercice solide : un chiffre d'affaires de <b>10 975 920 MUR</b> et un résultat net de <b>1 982 637 MUR</b>, soit une marge nette de <b>18,1 %</b> — au-dessus des standards du secteur des services à Maurice. La rentabilité est réelle, mais deux risques pèsent sur la qualité de cette performance : une <b>tension de trésorerie</b> (24 781 MUR disponibles) et un <b>retard de conformité MRA</b> (64 152 MUR d'obligations en souffrance, dont un TDS non déclaré depuis octobre 2025).</p>
+            <div class="kgrid">
+              <div class="kc"><div class="l">CA exercice</div><div class="v">10,98 M</div></div>
+              <div class="kc"><div class="l">Résultat net</div><div class="v">1,98 M</div></div>
+              <div class="kc"><div class="l">Marge nette</div><div class="v">18,1 %</div></div>
+              <div class="kc"><div class="l">Trésorerie</div><div class="v">24,8 k</div></div>
+            </div>
+            <h3>2 · Bilan résumé (IFRS for SMEs)</h3>
+            <table>
+              <tr><th>Poste</th><th class="r">2025-2026 (MUR)</th></tr>
+              <tr><td>Créances clients (Trade Receivables)</td><td class="r">908 813,98</td></tr>
+              <tr><td>Trésorerie &amp; banque</td><td class="r">24 780,88</td></tr>
+              <tr><td><b>Total Actif</b></td><td class="r"><b>933 594,86</b></td></tr>
+              <tr><td>Capital social</td><td class="r">8 558,49</td></tr>
+              <tr><td>Report à nouveau (Retained Earnings)</td><td class="r">1 982 636,60</td></tr>
+            </table>
+          </div>
+          <div class="doc-page rep">
+            <h3>3 · Ratios &amp; diagnostic</h3>
+            <table>
+              <tr><th>Indicateur</th><th class="r">Valeur</th><th class="r">Lecture</th></tr>
+              <tr><td>Marge nette</td><td class="r">18,1 %</td><td class="r"><span class="flag g">Solide</span></td></tr>
+              <tr><td>DSO (délai d'encaissement)</td><td class="r">≈ 30 j</td><td class="r"><span class="flag a">À surveiller</span></td></tr>
+              <tr><td>Trésorerie / charges mensuelles</td><td class="r">&lt; 0,1 mois</td><td class="r"><span class="flag r">Critique</span></td></tr>
+              <tr><td>Créances / CA</td><td class="r">8,3 %</td><td class="r"><span class="flag g">Sain</span></td></tr>
+              <tr><td>Dette fiscale en retard</td><td class="r">64 152 MUR</td><td class="r"><span class="flag r">Risque pénalité</span></td></tr>
+            </table>
+            <p>La rentabilité n'est pas le problème — la <b>liquidité</b> l'est. 908 814 MUR sont immobilisés en créances clients pendant que la trésorerie opérationnelle frôle la rupture. Le résultat est « sur le papier » : il faut le transformer en cash.</p>
+            <h3>4 · Recommandations stratégiques (priorisées)</h3>
+            <div class="rec"><b>P1 — Régulariser le TDS immédiatement.</b> 5 déclarations en retard (oct. 2025 → fév. 2026, 12 500 MUR). Intérêts à 1 %/mois (ITA §163) + risque de pénalité §111A. Action sous 7 jours.</div>
+            <div class="rec"><b>P1 — Reconstituer la trésorerie.</b> Lancer une campagne de relance sur les 115 factures impayées (2,57 M MUR) ; cibler en priorité SKYCALL (847 k) échue depuis 27 j. Objectif : +1,5 M de cash sous 30 j.</div>
+            <div class="rec"><b>P2 — Solder les charges sociales d'avril.</b> PAYE+CSG+NSF+PRGF+LEVY : 51 652 MUR à payer immédiatement (1 j de retard) pour éviter l'effet boule de neige.</div>
+            <div class="rec"><b>P3 — Optimiser la structure fiscale.</b> Évaluer l'éligibilité au régime PER 80 % sur les revenus de source étrangère (IS effectif 3 % vs 15 %) ; documenter la substance ITA §73A.</div>
+            <p style="color:#6b7488;font-size:10.5px;margin-top:14px;border-top:1px solid #eceef3;padding-top:8px">Rapport généré automatiquement à partir des données comptables vivantes de Lexora via le connecteur MCP. Les montants sont extraits en temps réel ; l'analyse applique les normes IFRS for SMEs et le cadre fiscal mauricien (ITA 1995, Finance Act 2024).</p>
+          </div>
+        </div>
+        <p class="muted" style="font-size:12.5px;margin-top:8px">📎 Le rapport PDF complet (6 pages) est joint en pièce séparée à cette présentation.</p>
+        <div class="note ai"><b>À retenir :</b> ce niveau d'analyse — bilan IFRS, ratios, diagnostic de liquidité, recommandations chiffrées et conformes au droit mauricien — est produit <b>à la demande, en minutes</b>, directement depuis le poste de travail. C'est l'expertise d'un directeur financier senior, disponible en continu.</div>
+      </div>
+    </section>
+
+    <!-- ============ TELEGRAM ============ -->
+    <section class="panel" id="panel-telegram">
+      <div class="wrap">
+        <span class="eyebrow">✈ Pilotage par messagerie</span>
+        <h1>Toute la plateforme dans Telegram — 162 outils</h1>
+        <p class="section-intro">Lexora se pilote depuis votre téléphone, dans une simple conversation Telegram. Le bot donne accès à <strong>162 outils</strong> (97 actions d'écriture sous garde-fous + 65 lectures), avec une mémoire persistante. Concrètement, voici à quoi ressemblent les échanges :</p>
+
+        <div class="phones">
+          <div class="phone">
+            <div class="pt"><div class="pa">✦</div><div><div class="pn">Lexora Bot</div><div class="ps">en ligne · @Stephane</div></div></div>
+            <div class="tgwin">
+              <div class="tg out">📷 <span class="photo">Photo — ticket restaurant</span>Voilà ma note de frais<div class="ts">14:02 ✓✓</div></div>
+              <div class="tg in"><div class="tgh">Lexora</div>📸 Reçu détecté — <b>KFC Bagatelle</b>
+1 250,00 MUR · 12/06/2026
+Nature : repas d'affaires
+→ Écriture proposée : <b>6257</b> Frais de repas / <b>467</b> Note de frais salarié
+Je passe l'écriture ?
+<div class="tgbtns"><span class="tgb ok">✓ Valider</span><span class="tgb">Modifier</span></div><div class="ts">14:02</div></div>
+              <div class="tg out">Valide<div class="ts">14:03 ✓✓</div></div>
+              <div class="tg in"><div class="tgh">Lexora</div>✅ Écriture passée et classée dans <i>Notes de frais</i>. Document archivé.<div class="ts">14:03</div></div>
+            </div>
+          </div>
+
+          <div class="phone">
+            <div class="pt"><div class="pa">✦</div><div><div class="pn">Lexora Bot</div><div class="ps">en ligne · @Stephane</div></div></div>
+            <div class="tgwin">
+              <div class="tg out">Où en est ma trésorerie ?<div class="ts">09:14 ✓✓</div></div>
+              <div class="tg in"><div class="tgh">Lexora</div>💰 <b>Trésorerie — 24 781 MUR</b>
+• MCB MUR : 2 451 ⚠️
+• MCB EUR : 404 € (≈ 22 330)
+CA exercice : 10,98 M · Résultat net : 1,98 M
+⚠️ 115 factures impayées · 2,57 M MUR
+<div class="tgbtns"><span class="tgb">Voir impayés</span><span class="tgb">Relancer clients</span></div><div class="ts">09:14</div></div>
+              <div class="tg out">Sors le bordereau PAYE de mai<div class="ts">09:15 ✓✓</div></div>
+              <div class="tg in"><div class="tgh">Lexora</div>📄 Bordereau PAYE mai 2026 généré :
+<div class="doc"><div class="di">PDF</div><div><div class="dn">PAYE_2026-05_MRA.pdf</div><div class="dz">MRA · 480 MUR · 86 Ko</div></div></div><div class="ts">09:15</div></div>
+            </div>
+          </div>
+
+          <div class="phone">
+            <div class="pt"><div class="pa">✦</div><div><div class="pn">Lexora Bot</div><div class="ps">résumé quotidien · 08:00</div></div></div>
+            <div class="tgwin">
+              <div class="tg in"><div class="tgh">Lexora · Daily digest</div>☀️ <b>Bonjour Stephane — 1 juin</b>
+📌 À traiter aujourd'hui :
+• PAYE+CSG+NSF d'avril en retard (1 j) — 51 652 MUR
+• TDS oct.→fév. : 5 déclarations en retard
+• 2 CDD expirent &lt; 30 j
+💡 Trésorerie OK, mais MCB MUR sous le seuil (50 000)
+<div class="tgbtns"><span class="tgb">Régler MRA</span><span class="tgb">Tout voir</span></div><div class="ts">08:00</div></div>
+              <div class="tg out">Calcule le net pour 50 000 brut<div class="ts">08:12 ✓✓</div></div>
+              <div class="tg in"><div class="tgh">Lexora</div>🧮 Brut 50 000 MUR →
+CSG (1,5%) −750 · NSF −150 · PAYE −5 320
+<b>Net à payer ≈ 43 780 MUR</b>
+Charges patronales : +6 750<div class="ts">08:12</div></div>
+            </div>
+          </div>
+        </div>
+
+        <h2 style="margin-top:14px">Ce que vous pouvez faire, sans ouvrir l'application</h2>
+        <div class="grid g4" style="margin-bottom:8px">
+          <div class="card feat"><div class="fic" style="background:#e8f6f5">📷</div><h3>Saisir par photo</h3><p>Tickets, factures, relevés → OCR + écriture automatique.</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--blue-soft)">📊</div><h3>Interroger</h3><p>Trésorerie, KPIs, impayés, soldes de congés, conformité MRA.</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--amber-soft)">📄</div><h3>Générer &amp; envoyer</h3><p>Bordereaux MRA, factures PDF, exports Excel/CSV, e-mails.</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--purple-soft)">🔔</div><h3>Être alerté</h3><p>Digest quotidien, échéances, solde faible, factures en retard.</p></div>
+        </div>
+
+        <div class="grid g2">
+          <div>
+            <h2>Connexion &amp; alertes proactives</h2>
+            <div class="mock"><div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/client/telegram-config</span></div>
+              <div class="mock-main" style="padding:16px">
+                <div class="mh"><div><div class="t">Telegram Bot</div><div class="s"><span class="tag g">✓ Lié</span> @Stephane · Français</div></div></div>
+                <table class="mt">
+                  <tr><td>Échéances MRA</td><td class="r">Alerte J−7 ●</td></tr>
+                  <tr><td>Solde bancaire faible</td><td class="r">Seuil 50 000 MUR ●</td></tr>
+                  <tr><td>Factures en retard</td><td class="r">&gt; 30 jours ●</td></tr>
+                  <tr><td>Daily digest</td><td class="r">08h00 · KPIs ●</td></tr>
+                  <tr><td>KPIs hebdomadaires</td><td class="r">lundi matin ●</td></tr>
+                </table>
+              </div></div>
+          </div>
+          <div>
+            <h2>Répartition des 162 outils</h2>
+            <div class="card">
+              <table class="mt">
+                <tr><th>Groupe</th><th class="r">Outils</th></tr>
+                <tr><td>Compta courante</td><td class="r mono">47</td></tr>
+                <tr><td>RH / Paie</td><td class="r mono">28</td></tr>
+                <tr><td>MRA / Fiscalité</td><td class="r mono">18</td></tr>
+                <tr><td>Connecteurs (Gmail, Outlook, Calendar…)</td><td class="r mono">14</td></tr>
+                <tr><td>GBC compliance</td><td class="r mono">14</td></tr>
+                <tr><td>Téléchargements PDF/Excel/CSV</td><td class="r mono">11</td></tr>
+                <tr><td>Admin · Immobilisations · autres</td><td class="r mono">30</td></tr>
+                <tr><td style="font-weight:700">TOTAL</td><td class="r mono" style="font-weight:700">162</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="note"><b>Sécurité :</b> authentification <span class="mono">HMAC-SHA256</span> (signature + timestamp + nonce anti-rejeu). Les 97 outils d'écriture exigent confirmation explicite, whitelist des destinataires email et rôle minimum « comptable ». Lien magique cross-canal (<span class="mono">web_handoff_link</span>, 24 h) pour basculer vers le web.</div>
+      </div>
+    </section>
+
+    <!-- ============ ARCHI ============ -->
+    <section class="panel" id="panel-archi">
+      <div class="wrap">
+        <span class="eyebrow">⌬ PCM &amp; couche IA</span>
+        <h1>Le Plan Comptable Mauricien, augmenté par l'IA</h1>
+        <p class="section-intro">Sous chaque écran, un socle déterministe : le <strong>PCM</strong> (8 classes MIPA, Finance Act 2024 / WRA 2019) sur lequel s'appuie une couche IA qui impute, détecte et rapproche — sans jamais lettrer sans validation humaine.</p>
+
+        <div class="archcol">
+          <div class="card">
+            <h3>Comptes notables du PCM</h3>
+            <table class="mt">
+              <tr><th>Compte</th><th>Usage</th></tr>
+              <tr><td class="mono">401 / 411</td><td>Fournisseurs / Clients</td></tr>
+              <tr><td class="mono">421</td><td>Personnel — salaires à payer</td></tr>
+              <tr><td class="mono">4311 / 4321</td><td>CSG salarié / patronal</td></tr>
+              <tr><td class="mono">4323</td><td>PRGF (Portable Retirement Gratuity Fund)</td></tr>
+              <tr><td class="mono">4324</td><td>Training Levy HRDC 1 %</td></tr>
+              <tr><td class="mono">4330 / 4471</td><td>PAYE à reverser / TDS retenue</td></tr>
+              <tr><td class="mono">512.xxx</td><td>Banques (MCB MUR, MCB EUR, SBM…)</td></tr>
+              <tr><td class="mono">580</td><td>Virements internes (transit)</td></tr>
+              <tr><td class="mono">627</td><td>Frais bancaires (non lettrables)</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="card" style="margin-bottom:16px">
+              <h3>La couche IA d'imputation</h3>
+              <ul class="exp" style="margin:6px 0 0">
+                <li><b>Classification bancaire</b> déterministe (libellé + tiers → compte + confiance)</li>
+                <li><b>Détection TDS</b> sur facture fournisseur (taux + base HT)</li>
+                <li><b>Auto-tagging GBC</b> (IAS 21, PER 80 %, related party)</li>
+                <li><b>Rapprochement intelligent</b> en 4 phases (registre tiers → stratégies → classifications → dedup)</li>
+                <li><b>Extraction relevé</b> (unpdf → Claude, continuation ×5, dedup)</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Le principe directeur</h3>
+              <p style="font-size:14px;color:#46506a;margin-top:6px">Couche <b>déterministe</b> (règles R1–R7, taux légaux, équilibrage) <span style="color:var(--gold);font-weight:800">+</span> couche <b>générative</b> (agents Claude) <span style="color:var(--gold);font-weight:800">→</span> <b>validation humaine</b> avant tout lettrage définitif.</p>
+            </div>
+          </div>
+        </div>
+
+        <h2 style="margin-top:30px">Récapitulatif chiffré</h2>
+        <div class="stats">
+          <div class="stat"><div class="n">18</div><div class="l">Agents IA</div></div>
+          <div class="stat"><div class="n">162</div><div class="l">Outils Telegram</div></div>
+          <div class="stat"><div class="n">135</div><div class="l">Pages applicatives</div></div>
+          <div class="stat"><div class="n">8</div><div class="l">Classes PCM (MIPA)</div></div>
+        </div>
+        <div class="disclaimer">Cadre légal couvert : Companies Act 2001 · Workers' Rights Act 2019 · Finance Act 2024 · Income Tax Act 1995 · IFRS for SMEs / IFRS 9 / 16 / IAS 19 / 21 · FSC AML Act · FATF · BEPS 2.0 (Pillar Two).</div>
+      </div>
+    </section>
+
+    <!-- ============ COMPARE ============ -->
+    <section class="panel" id="panel-compare">
+      <div class="wrap">
+        <span class="eyebrow">&#9876; Positionnement march&eacute;</span>
+        <h1>Lexora vs les ERP du march&eacute; &mdash; 2026</h1>
+        <p class="lead">L'ERP IA-natif unique au monde pour Maurice (MRA) &middot; OHADA &middot; IFRS &middot; GBC offshore. Comparatif fonctionnel face aux cinq plateformes de r&eacute;f&eacute;rence : QuickBooks, Xero, Sage, Zoho et Odoo.</p>
+        <div class="note" style="border-left-color:var(--gold)"><b>Mise &agrave; jour juin 2026 :</b> chiffres align&eacute;s sur la plateforme observ&eacute;e &mdash; <b>162 outils Telegram</b>, <b>connecteur MCP Claude Desktop</b>, mod&egrave;les <b>Opus 4.8 / Sonnet 4.6 / Haiku 4.5</b>, 18 agents IA. Donn&eacute;es concurrents v&eacute;rifi&eacute;es mai 2026 (QuickBooks Intuit Intelligence, Xero JAX, Sage Pastel, Zoho Zia, Odoo).</div>
+        <div class="legend">
+          <span><b class="y" style="color:#15a97c">&#10003;</b> Natif</span>
+          <span><b class="p" style="color:#e0a200">&#9680;</b> Partiel / limit&eacute;</span>
+          <span><b class="a2" style="color:#3a6df0">&#8853;</b> Add-on tiers payant</span>
+          <span><b class="n" style="color:#c0c4d0">&#10007;</b> Absent</span>
+        </div>
+        <h2 style="margin-top:22px">1 &middot; Conformit&eacute; Maurice <span style="color:var(--gold)">&#9733;</span></h2>
+        <table class="cmp"><thead><tr><th class="feat">Fonctionnalit&eacute;</th><th class="lex">LEXORA</th><th>QB</th><th>Xero</th><th>Sage</th><th>Zoho</th><th>Odoo</th></tr></thead><tbody><tr><td class="feat">Plan Comptable Mauricien (PCM)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">TVA 15% + 9 boxes MRA</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">MRA e-filing PAYE/CSG/NSF automatis&eacute;</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">MRA e-invoicing (IRN + QR)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">TDS multi-cat&eacute;gories + CSV MRA</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Taux FX Bank of Mauritius quotidiens</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td></tr></tbody></table>
+        <p class="cmp-cap">Seul ERP cloud 100% natif Maurice &mdash; MRA pilot&eacute; par IA</p>
+        <h2 style="margin-top:22px">2 &middot; IFRS &amp; International</h2>
+        <table class="cmp"><thead><tr><th class="feat">Fonctionnalit&eacute;</th><th class="lex">LEXORA</th><th>QB</th><th>Xero</th><th>Sage</th><th>Zoho</th><th>Odoo</th></tr></thead><tbody><tr><td class="feat">OHADA SYSCOHADA 17 pays</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td><td><span class="a2">&#8853;</span></td></tr><tr><td class="feat">IFRS 9 ECL (PD/LGD sectoriels)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">IFRS 16 Leases (RoU complet)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="a2">&#8853;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td><td><span class="a2">&#8853;</span></td></tr><tr><td class="feat">IFRS 10 Consolidation</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="a2">&#8853;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td></tr><tr><td class="feat">GBC Maurice (PER, Substance, TP, UBO)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">BEPS Pillar Two GloBE (ETR 15%)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr></tbody></table>
+        <p class="cmp-cap">Unique combinaison Full IFRS + GBC + OHADA cloud-native</p>
+        <h2 style="margin-top:22px">3 &middot; Comptabilit&eacute; core</h2>
+        <table class="cmp"><thead><tr><th class="feat">Fonctionnalit&eacute;</th><th class="lex">LEXORA</th><th>QB</th><th>Xero</th><th>Sage</th><th>Zoho</th><th>Odoo</th></tr></thead><tbody><tr><td class="feat">Lettrage R1-R7 + audit trail</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td></tr><tr><td class="feat">Multi-soci&eacute;t&eacute;s multi-tenant RLS</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td></tr><tr><td class="feat">Multi-devises taux historiques fig&eacute;s</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td></tr><tr><td class="feat">Fixed Asset Register MRA</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="a2">&#8853;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td></tr><tr><td class="feat">Sant&eacute; comptable temps r&eacute;el 0-100</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Export FEC autorit&eacute;s fiscales</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="y">&#10003;</span></td></tr></tbody></table>
+        <p class="cmp-cap">9 diagnostics live &middot; sant&eacute; comptable temps r&eacute;el unique</p>
+        <h2 style="margin-top:22px">4 &middot; Banque &amp; rapprochement</h2>
+        <table class="cmp"><thead><tr><th class="feat">Fonctionnalit&eacute;</th><th class="lex">LEXORA</th><th>QB</th><th>Xero</th><th>Sage</th><th>Zoho</th><th>Odoo</th></tr></thead><tbody><tr><td class="feat">7 banques MU connect&eacute;es (MCB, SBM, ABC&hellip;)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Agent IA rapprochement Claude (Lex Banque)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Import PDF Claude vision multi-page</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td></tr><tr><td class="feat">Multi-strat&eacute;gies + multi-factures match</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td></tr><tr><td class="feat">D&eacute;tection anomalies (balance drift)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">G&eacute;n&eacute;ration virement CFONB</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td></tr></tbody></table>
+        <p class="cmp-cap">Lex Banque &middot; agent IA raisonnant &mdash; pas du simple ML</p>
+        <h2 style="margin-top:22px">5 &middot; RH &amp; Paie Maurice <span style="color:var(--gold)">&#9733;</span></h2>
+        <table class="cmp"><thead><tr><th class="feat">Fonctionnalit&eacute;</th><th class="lex">LEXORA</th><th>QB</th><th>Xero</th><th>Sage</th><th>Zoho</th><th>Odoo</th></tr></thead><tbody><tr><td class="feat">Paie WRA 2019 (CSG, NSF, PAYE, TL, PRGF)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">EOSB 75/25 + Severance WRA</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Cong&eacute;s 10 types WRA + workflow</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td></tr><tr><td class="feat">Pointage (QR/GPS/badge/manuel)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td></tr><tr><td class="feat">Provisions IAS 19 (EOSB + PRGF)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Chatbot RH IA Clara (Claude)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td></tr></tbody></table>
+        <p class="cmp-cap">Seul ERP cloud avec paie WRA 2019 native + Clara IA</p>
+        <h2 style="margin-top:22px">6 &middot; IA &amp; Automation <span style="color:var(--gold)">&#9733;</span></h2>
+        <table class="cmp"><thead><tr><th class="feat">Fonctionnalit&eacute;</th><th class="lex">LEXORA</th><th>QB</th><th>Xero</th><th>Sage</th><th>Zoho</th><th>Odoo</th></tr></thead><tbody><tr><td class="feat">Claude API native (Opus 4.8 / Sonnet 4.6 / Haiku 4.5)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="a2">&#8853;</span></td></tr><tr><td class="feat">Claude Skills (4 experts m&eacute;tier)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Connecteur MCP natif (Claude Desktop)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Templates factures IA photo &rarr; template</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Rapports IA r&eacute;dig&eacute;s (Bilan + IFRS 9)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Anticipation pr&eacute;dictive J-7 + m&eacute;moire RAG</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr></tbody></table>
+        <p class="cmp-cap">Architecturalement plus IA-native que tout concurrent</p>
+        <h2 style="margin-top:22px">7 &middot; Pilotage Telegram <span style="color:var(--gold)">&#9733;</span></h2>
+        <table class="cmp"><thead><tr><th class="feat">Fonctionnalit&eacute;</th><th class="lex">LEXORA</th><th>QB</th><th>Xero</th><th>Sage</th><th>Zoho</th><th>Odoo</th></tr></thead><tbody><tr><td class="feat">Bot Telegram (162 outils internes)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Voix &rarr; action (Whisper FR/EN)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Photo ticket &rarr; note de frais OCR</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td></tr><tr><td class="feat">Boutons inline approbation (cong&eacute;s/paie)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Chief of Staff IA conversationnel</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">App mobile native iOS/Android</td><td class="lexcol"><span class="p">&#9680;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td></tr></tbody></table>
+        <p class="cmp-cap">Pilotez votre entreprise sans ouvrir l'app &mdash; par conversation</p>
+        <h2 style="margin-top:22px">8 &middot; Cabinet expert-comptable</h2>
+        <table class="cmp"><thead><tr><th class="feat">Fonctionnalit&eacute;</th><th class="lex">LEXORA</th><th>QB</th><th>Xero</th><th>Sage</th><th>Zoho</th><th>Odoo</th></tr></thead><tbody><tr><td class="feat">Dashboard multi-clients</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td></tr><tr><td class="feat">Alertes fiscales consolid&eacute;es portefeuille</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Commission r&eacute;currente partenaire</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Impersonation client audit-safe</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td></tr><tr><td class="feat">Gratuit cabinet (paie par client)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="y">&#10003;</span></td><td><span class="n">&#10007;</span></td></tr><tr><td class="feat">Outils Audit + SOD (Compliance scan)</td><td class="lexcol"><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="p">&#9680;</span></td><td><span class="y">&#10003;</span></td><td><span class="p">&#9680;</span></td><td><span class="n">&#10007;</span></td></tr></tbody></table>
+        <p class="cmp-cap">Distribution partenaire via experts-comptables MU</p>
+        <h2 style="margin-top:24px">&#9733; 8 ruptures uniques Lexora</h2>
+        <div class="grid g4">
+          <div class="card feat"><div class="fic" style="background:var(--gold-soft);color:#8a6d1a;font-weight:800">1</div><h3>PCM + Claude API</h3><p>Plan Comptable Mauricien pilot&eacute; par IA &mdash; MRA e-filing &amp; e-invoicing automatis&eacute;s</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--gold-soft);color:#8a6d1a;font-weight:800">2</div><h3>Pilotage Telegram</h3><p>Bot conversationnel 162 outils, voix Whisper, approbations inline</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--gold-soft);color:#8a6d1a;font-weight:800">3</div><h3>Paie WRA 2019 Maurice</h3><p>Seul ERP cloud avec moteur paie natif CSG/NSF/PAYE + EOSB + IAS 19</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--gold-soft);color:#8a6d1a;font-weight:800">4</div><h3>Full IFRS + GBC + OHADA</h3><p>Unique combinaison cloud-native sur 17 pays + offshore Maurice</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--gold-soft);color:#8a6d1a;font-weight:800">5</div><h3>Claude Skills + MCP</h3><p>4 skills experts m&eacute;tier + connecteur MCP Claude Desktop &mdash; architecturalement IA</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--gold-soft);color:#8a6d1a;font-weight:800">6</div><h3>Agent bancaire IA</h3><p>Lex Banque raisonne sur 7 banques MU &mdash; pas du simple ML</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--gold-soft);color:#8a6d1a;font-weight:800">7</div><h3>Sant&eacute; comptable live</h3><p>Score 0-100 temps r&eacute;el avec 9 diagnostics &mdash; unique au march&eacute;</p></div>
+          <div class="card feat"><div class="fic" style="background:var(--gold-soft);color:#8a6d1a;font-weight:800">8</div><h3>Anticipation pr&eacute;dictive</h3><p>Alertes MRA J-7, d&eacute;couvert, Stage 2 + m&eacute;moire RAG conversationnelle</p></div>
+        </div>
+        <div class="disclaimer">Digital Data Solutions Ltd &mdash; BRN C20173522 &middot; Maurice &middot; www.lexora.finance &middot; Comparatif &agrave; vocation informative ; les fonctionnalit&eacute;s des concurrents &eacute;voluent et doivent &ecirc;tre revalid&eacute;es p&eacute;riodiquement.</div>
+      </div>
+    </section>
+
+    </div><!-- /panels -->
+
+    <div class="foot">
+      Présentation interactive générée à partir d'une exploration en direct de la plateforme <b>lexora.finance</b> (espace client · Digital Data Solutions Ltd / GBL TEST).
+      Les écrans sont des recréations HTML/CSS fidèles reprenant la mise en page et les données réelles observées. Lexora™ — Intelligent Accounting, powered by AI · Maurice.
+    </div>
+  </div>
+</div>
+
+<script>
+const panels = document.getElementById('panels');
+const crumbEl = document.getElementById('crumb');
+const labels = {intro:"Vue d'ensemble",philo:"La philosophie Lexora",compta:"Comptabilité",banque:"Banque & Rapprochement IA",mra:"MRA & Fiscalité",ifrs:"IFRS & Reporting",gbc:"GBC Offshore",rh:"RH & Paie",stocks:"Stocks & Inventaire",agents:"Agents IA",mcp:"MCP · Claude Desktop",telegram:"Telegram",archi:"PCM & Architecture",compare:"Lexora vs Concurrents"};
+
+/* ----- Compteurs animés sur les grands chiffres (.stat .n) ----- */
+function countUp(el){
+  const raw = el.dataset.raw || el.textContent.trim();
+  el.dataset.raw = raw;
+  const m = raw.match(/^(\d[\d\s ]*)(.*)$/);
+  if(!m){ return; }
+  const target = parseInt(m[1].replace(/[\s ]/g,''),10);
+  const suffix = m[2] || '';
+  if(isNaN(target)){ return; }
+  const dur = 1100, start = performance.now();
+  function tick(now){
+    const t = Math.min(1,(now-start)/dur);
+    const eased = 1 - Math.pow(1-t,3);
+    el.textContent = Math.round(target*eased) + suffix;
+    if(t < 1){ requestAnimationFrame(tick); }
+    else { el.textContent = raw; }
+  }
+  requestAnimationFrame(tick);
+}
+function animatePanel(panel){
+  if(!panel) return;
+  // Entrée en cascade — fail-safe : un setTimeout rétablit toujours la visibilité,
+  // même si la timeline d'animation est gelée (aperçu inactif, onglet en arrière-plan).
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const kids = panel.querySelectorAll('.wrap > *');
+  kids.forEach((el,i)=>{
+    if(reduce || !el.animate){ return; }
+    const delay = Math.min(i,11) * 65;
+    el.style.opacity = '0';
+    let anim;
+    try{
+      anim = el.animate(
+        [{opacity:0, transform:'translateY(16px)'},{opacity:1, transform:'translateY(0)'}],
+        {duration:520, delay, easing:'cubic-bezier(.22,.61,.36,1)'}
+      );
+    }catch(e){ el.style.opacity=''; return; }
+    const clear = ()=>{ el.style.opacity=''; el.style.transform=''; };
+    if(anim) anim.onfinish = clear;
+    // filet de sécurité : annule l'animation (sinon elle peut figer l'élément
+    // invisible si la timeline est gelée) puis rétablit la visibilité.
+    setTimeout(()=>{ try{ if(anim) anim.cancel(); }catch(e){} clear(); }, delay + 520 + 450);
+  });
+  // Compteurs animés sur les grands chiffres
+  panel.querySelectorAll('.stat .n').forEach((el,i)=>{
+    setTimeout(()=>countUp(el), 260 + i*90);
+  });
+}
+
+document.querySelectorAll('.nav-item').forEach(n=>{
+  n.addEventListener('click',()=>{
+    document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+    n.classList.add('active');
+    const id=n.dataset.p;
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    const panel=document.getElementById('panel-'+id);
+    panel.classList.add('active');
+    crumbEl.textContent=labels[id];
+    document.querySelector('.main').scrollTo?.(0,0);
+    window.scrollTo({top:0,behavior:'smooth'});
+    animatePanel(panel);
+  });
+});
+
+/* Premier affichage : anime le panneau d'accueil */
+animatePanel(document.querySelector('.panel.active'));
+</script>
+</body>
+</html>
