@@ -581,29 +581,29 @@ h3{font-size:17px;margin:0 0 4px}
           <div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">lexora.finance/client/rapprochement</span></div>
           <div class="mock-body">
             <div class="mock-side">
-              <div class="ml"><span class="x">▦</span> Banque</div>
-              <div class="ml on"><span class="x">⇄</span> Rapprochement</div>
-              <div class="ml"><span class="x">▦</span> Mensuel</div>
-              <div class="ml"><span class="x">▭</span> Grand Livre</div>
+              <div class="ml"><span class="x">▦</span> Banking</div>
+              <div class="ml on"><span class="x">⇄</span> Reconciliation</div>
+              <div class="ml"><span class="x">▦</span> Monthly</div>
+              <div class="ml"><span class="x">▭</span> General Ledger</div>
             </div>
             <div class="mock-main">
-              <div class="mh"><div><div class="t">Lex Banque <span class="tag p">AGENT IA</span></div><div class="s">Matching automatique des factures + classifications PCM</div></div>
-                <div class="btns"><span class="b purple">✦ Lancer Lex Banque</span><span class="b">+ Approfondir avec IA</span></div></div>
+              <div class="mh"><div><div class="t">Lex Banque <span class="tag p">AI AGENT</span></div><div class="s">Automatic invoice matching + PCM classifications</div></div>
+                <div class="btns"><span class="b purple">✦ Run Lex Banque</span><span class="b">+ Dig deeper with AI</span></div></div>
               <div class="kpis k5">
                 <div class="kpi"><div class="kl">Total tx</div><div class="kv">281</div></div>
-                <div class="kpi act"><div class="kl">À valider</div><div class="kv" style="color:var(--amber)">3</div></div>
-                <div class="kpi gr"><div class="kl">Rapprochées</div><div class="kv" style="color:var(--green)">250</div></div>
-                <div class="kpi rd"><div class="kl">Orphelines</div><div class="kv" style="color:var(--red)">28</div></div>
-                <div class="kpi"><div class="kl">Taux</div><div class="kv">89%</div></div>
+                <div class="kpi act"><div class="kl">To approve</div><div class="kv" style="color:var(--amber)">3</div></div>
+                <div class="kpi gr"><div class="kl">Reconciled</div><div class="kv" style="color:var(--green)">250</div></div>
+                <div class="kpi rd"><div class="kl">Orphaned</div><div class="kv" style="color:var(--red)">28</div></div>
+                <div class="kpi"><div class="kl">Rate</div><div class="kv">89%</div></div>
               </div>
-              <div class="s muted" style="font-size:11px;margin:4px 0 6px;font-weight:700;text-transform:uppercase">Suggestions à valider</div>
+              <div class="s muted" style="font-size:11px;margin:4px 0 6px;font-weight:700;text-transform:uppercase">Suggestions to approve</div>
               <table class="mt">
-                <tr><td><b>Paiements fournisseurs</b><br><span class="muted">IB Transfer → ServiQual Ltd</span></td>
-                  <td><span class="tag p">88%</span> <span class="tag gr2">supplier_multi_subset_priority</span> <span class="tag b">2× factures</span></td>
-                  <td class="r mono">−1 239,87 EUR</td><td class="r"><span class="tag g">Valider</span></td></tr>
-                <tr><td><b>Salaires</b><br><span class="muted">Bulk Payment → Compte PCM 4210</span></td>
+                <tr><td><b>Supplier payments</b><br><span class="muted">IB Transfer → ServiQual Ltd</span></td>
+                  <td><span class="tag p">88%</span> <span class="tag gr2">supplier_multi_subset_priority</span> <span class="tag b">2× invoices</span></td>
+                  <td class="r mono">−1 239.87 EUR</td><td class="r"><span class="tag g">Approve</span></td></tr>
+                <tr><td><b>Salaries</b><br><span class="muted">Bulk Payment → PCM account 4210</span></td>
                   <td><span class="tag p">88%</span> <span class="tag gr2">classification_agent</span></td>
-                  <td class="r mono">−55 692,00 MUR</td><td class="r"><span class="tag g">Valider</span></td></tr>
+                  <td class="r mono">−55 692.00 MUR</td><td class="r"><span class="tag g">Approve</span></td></tr>
               </table>
             </div>
           </div>
@@ -611,36 +611,36 @@ h3{font-size:17px;margin:0 0 4px}
 
         <div class="archcol" style="margin-top:24px">
           <div class="card">
-            <h3>Les 8 stratégies de lettrage (en cascade)</h3>
+            <h3>The 8 matching strategies (cascading)</h3>
             <ul class="exp">
-              <li><b>N° de facture détecté</b> dans le libellé → priorité absolue</li>
-              <li><b>Multi-subset</b> : N factures → 1 transaction (tolérance 2 %)</li>
-              <li><b>Acomptes successifs</b> : N paiements → 1 facture</li>
-              <li><b>Matching flou tiers</b> (Jaccard ≥ 0,35, alias, sous-chaîne)</li>
-              <li>Décalage de date accepté : <b>−60 j à +180 j</b></li>
+              <li><b>Invoice number detected</b> in the label → top priority</li>
+              <li><b>Multi-subset</b>: N invoices → 1 transaction (2% tolerance)</li>
+              <li><b>Successive part-payments</b>: N payments → 1 invoice</li>
+              <li><b>Fuzzy party matching</b> (Jaccard ≥ 0.35, aliases, substring)</li>
+              <li>Accepted date offset: <b>−60d to +180d</b></li>
             </ul>
           </div>
           <div class="card">
-            <h3>Classifications déterministes R01–R06</h3>
+            <h3>Deterministic classifications R01–R06</h3>
             <ul class="exp">
-              <li>Virements internes → compte <b>580</b></li>
-              <li>Frais bancaires → <b>627</b> <span class="muted">(non lettrables, R7)</span></li>
-              <li>Charges sociales MRA → <b>444</b></li>
-              <li>Salaires bulk/individuels → <b>421 / 4210</b></li>
-              <li>Remboursement compte courant associé → <b>455</b></li>
+              <li>Internal transfers → account <b>580</b></li>
+              <li>Bank charges → <b>627</b> <span class="muted">(non-matchable, R7)</span></li>
+              <li>MRA social charges → <b>444</b></li>
+              <li>Bulk/individual salaries → <b>421 / 4210</b></li>
+              <li>Shareholder current account repayment → <b>455</b></li>
             </ul>
           </div>
         </div>
-        <div class="note ai"><b>L'IA n'est jamais aveugle :</b> chaque suggestion affiche un score de confiance et la stratégie employée, puis passe par une validation humaine avant le lettrage définitif.</div>
+        <div class="note ai"><b>The AI is never blind:</b> every suggestion shows a confidence score and the strategy used, then goes through human approval before the final matching.</div>
       </div>
     </section>
 
     <!-- ============ MRA ============ -->
     <section class="panel" id="panel-mra">
       <div class="wrap">
-        <span class="eyebrow">▣ Conformité MRA · Fiscalité Maurice</span>
-        <h1>La fiscalité mauricienne, pilotée et pré-remplie</h1>
-        <p class="section-intro">11 pages couvrent l'ensemble des obligations envers la <strong>Mauritius Revenue Authority</strong> : un hub-calendrier centralise TVA, TDS, PAYE/CSG/NSF, IT Form 3, CIT, ROC, SFT et Annual Return, avec montants dus, échéances et rappels automatiques.</p>
+        <span class="eyebrow">▣ MRA compliance · Mauritius tax</span>
+        <h1>Mauritian taxation, driven and pre-filled</h1>
+        <p class="section-intro">11 pages cover the full range of obligations to the <strong>Mauritius Revenue Authority</strong>: a calendar hub centralizes VAT, TDS, PAYE/CSG/NSF, IT Form 3, CIT, ROC, SFT and Annual Return, with amounts due, deadlines and automatic reminders.</p>
 
         <div class="grid g2">
           <div>
@@ -648,11 +648,11 @@ h3{font-size:17px;margin:0 0 4px}
             <div class="mock"><div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/client/mra-hub</span></div>
               <div class="mock-main" style="padding:16px">
                 <div class="kpis k5">
-                  <div class="kpi rd"><div class="kl">En retard</div><div class="kv" style="color:var(--red)">0</div></div>
-                  <div class="kpi am"><div class="kl">Urgent &lt;7j</div><div class="kv">0</div></div>
-                  <div class="kpi"><div class="kl">&lt;30j</div><div class="kv">0</div></div>
-                  <div class="kpi"><div class="kl">Plus tard</div><div class="kv">1</div></div>
-                  <div class="kpi gr"><div class="kl">Réglés</div><div class="kv" style="color:var(--green)">0</div></div>
+                  <div class="kpi rd"><div class="kl">Overdue</div><div class="kv" style="color:var(--red)">0</div></div>
+                  <div class="kpi am"><div class="kl">Urgent &lt;7d</div><div class="kv">0</div></div>
+                  <div class="kpi"><div class="kl">&lt;30d</div><div class="kv">0</div></div>
+                  <div class="kpi"><div class="kl">Later</div><div class="kv">1</div></div>
+                  <div class="kpi gr"><div class="kl">Settled</div><div class="kv" style="color:var(--green)">0</div></div>
                 </div>
                 <div class="pill-row">
                   <span class="pill">VAT 3/4 + Reverse Charge</span><span class="pill">TDS · §111A</span>
@@ -663,16 +663,16 @@ h3{font-size:17px;margin:0 0 4px}
               </div></div>
           </div>
           <div>
-            <h2>Conformité TDS &amp; déclarations</h2>
+            <h2>TDS compliance &amp; returns</h2>
             <div class="mock"><div class="mock-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="url">/client/mra-tds</span></div>
               <div class="mock-main" style="padding:16px">
-                <div class="btns" style="margin-bottom:10px"><span class="b purple">🔍 Détecter TDS</span></div>
-                <div class="kpis k3"><div class="kpi"><div class="kl">À traiter</div><div class="kv">18</div></div><div class="kpi rd"><div class="kl">En retard</div><div class="kv" style="color:var(--red)">13</div></div><div class="kpi am"><div class="kl">Montant dû</div><div class="kv sm">118 882</div><div class="ks">MUR à reverser</div></div></div>
+                <div class="btns" style="margin-bottom:10px"><span class="b purple">🔍 Detect TDS</span></div>
+                <div class="kpis k3"><div class="kpi"><div class="kl">To process</div><div class="kv">18</div></div><div class="kpi rd"><div class="kl">Overdue</div><div class="kv" style="color:var(--red)">13</div></div><div class="kpi am"><div class="kl">Amount due</div><div class="kv sm">118 882</div><div class="ks">MUR to remit</div></div></div>
                 <table class="mt">
-                  <tr><th>Obligation</th><th>Période</th><th class="r">Dû</th></tr>
-                  <tr><td>PAYE <span class="tag r">retard</span></td><td>2026-04</td><td class="r mono">924</td></tr>
-                  <tr><td>CSG <span class="tag r">retard</span></td><td>2026-04</td><td class="r mono">14 622</td></tr>
-                  <tr><td>TDS retenue source</td><td>2025-12</td><td class="r mono">2 500</td></tr>
+                  <tr><th>Obligation</th><th>Period</th><th class="r">Due</th></tr>
+                  <tr><td>PAYE <span class="tag r">overdue</span></td><td>2026-04</td><td class="r mono">924</td></tr>
+                  <tr><td>CSG <span class="tag r">overdue</span></td><td>2026-04</td><td class="r mono">14 622</td></tr>
+                  <tr><td>TDS withholding</td><td>2025-12</td><td class="r mono">2 500</td></tr>
                 </table>
               </div></div>
           </div>
