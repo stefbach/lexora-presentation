@@ -8,6 +8,18 @@ Présentation interactive de **Lexora** — l'ERP comptable piloté par l'IA, co
 - **`presentation.html`** — la présentation dynamique chargée dans le cadre de la vidéo (14 sections : Vue d'ensemble, Philosophie, Comptabilité, Banque, MRA, IFRS, GBC, RH, Stocks, Agents IA, MCP, Telegram, Architecture, Comparatif). 100 % autonome (CSS + JS inline).
 - **`director.js`** — le moteur « réalisateur » qui orchestre la vidéo : intro, doigt animé, défilement, transitions de page. La durée de chaque page est **calculée selon la densité de son contenu** (~20 s à ~46 s), pour un total d'environ 8 min.
 
+## URL par langue (partage)
+
+Pour partager la vidéo selon le public, des URL dédiées sont disponibles :
+
+- **`/`** — vidéo guidée (français par défaut, avec sélecteur FR/EN en haut à droite)
+- **`/fr`** — vidéo guidée forcée en **français**
+- **`/en`** — vidéo guidée forcée en **anglais**
+
+Les pages `/fr` et `/en` chargent les ressources communes (`/presentation*.html`,
+`/director.js`) avec des chemins absolus, donc le même moteur sert les deux langues
+sans duplication. Le sélecteur FR/EN reste utilisable sur chaque page.
+
 ## Utilisation
 
 La vidéo guidée charge `presentation.html` dans une iframe, il faut donc servir les

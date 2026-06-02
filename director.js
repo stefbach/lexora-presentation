@@ -17,8 +17,12 @@
   const PAGE_DUR = 22000;          // ms par page (défilement lent, temps de lire)
 
   // ---- Langue (FR / EN) — sélecteur intégré ----
-  let lang = (localStorage.getItem('lexora_video_lang') === 'en') ? 'en' : 'fr';
-  const SRC = { fr: 'presentation.html', en: 'presentation-en.html' };
+  // Priorité : langue forcée par l'URL (pages /fr et /en via window.LEXORA_LANG)
+  // puis langue mémorisée, sinon français par défaut.
+  const FORCED = (window.LEXORA_LANG === 'en' || window.LEXORA_LANG === 'fr') ? window.LEXORA_LANG : null;
+  let lang = FORCED || ((localStorage.getItem('lexora_video_lang') === 'en') ? 'en' : 'fr');
+  // chemins absolus → fonctionnent depuis la racine comme depuis /fr et /en
+  const SRC = { fr: '/presentation.html', en: '/presentation-en.html' };
   const I18N = {
     fr: { badge: "Intelligent Accounting · powered by AI",
           tagline: "L'ERP comptable piloté par l'IA — conçu pour l'Île Maurice" },
